@@ -1,26 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom'
+import { HashRouter as Router, Route, Switch, Link, hashHistory} from 'react-router-dom'
 
 import Login from './components/login/index'
+import Main from './components/main/index'
+import Test from './components/test/index'
 
 class App extends React.Component {
-  render() {
-      return (
-        <div>
-         app
-         <Link to="/login">login</Link>
-         <Link to="/test">test</Link>
-        </div>
-      )
+  constructor (props) {
+    super(props)
   }
-}
-
-class Test extends React.Component {
   render() {
       return (
         <div>
-          test
+          <Login />
         </div>
       )
   }
@@ -32,6 +25,8 @@ ReactDOM.render((
       <Route path='/' component={App} exact />
       <Route path='/test' component={Test}  />
       <Route path='/login' component={Login}  />
+      <Route path='/main' component={Main}  />
   </Switch>
 </Router>
 ),document.getElementById('app'));
+
