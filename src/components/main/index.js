@@ -1,8 +1,11 @@
 import React from 'react'
 import SocketIO from 'socket.io-client'
 
+import emitter from '../../util/event'
+
 import UserList from './userList'
 import Header from './header'
+import ChatBox from './chatBox'
 
 import './index.css'
 
@@ -10,7 +13,11 @@ class Main extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      userList: {}
+      socketClient: null,
+      userList: {},
+      isShowChatBox: false,
+      currentChatUser: '',
+      currentChatSocketId: ''
     }
   }
   componentWillMount ()  {
@@ -26,12 +33,26 @@ class Main extends React.Component {
     socket.on('sys', function(data){
       console.log(data)
     })
+    socket.on('msg', function(data){
+      console.log(data)
+    })
+    this.setState({
+      socketClient: socket
+    })
+    emitter.addListener('switchChatBox', (data) => {
+      this.setState({
+        isShowChatBox: data.status,
+        currentChatUser: data.currentChatUser,
+        currentChatSocketId: data.currentChatSocketId
+      })
+    })
   }
   render() {
       return (
         <div id='main'>
           <Header />
-          <UserList userList={this.state.userList}/>
+          {this.state.isShowChatBox ? <ChatBox currentChatSocketId={this.state.currentChatSocketId} socketClient={this.state.socketClient} currentChatUser={this.state.currentChatUser} /> : null}
+          <UserList switchChatBox={this.switchChatBox} socketClient={this.state.socketClient} userList={this.state.userList}/>
         </div>
       )
   }

@@ -48,5 +48,15 @@ var serverClient = io.on('connection', function (socket) {
       msg: nickname + "离线"
     })
   })
+
+  //转发消息
+  socket.on('msg',function(data){
+    var id = data.currentChatSocketId
+    socket.to(id).emit('msg',{
+      from: data.from,
+      msg: data.msg
+    })
+    console.log(data)
+  })
   
 });
