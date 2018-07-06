@@ -17,7 +17,8 @@ class Main extends React.Component {
       userList: {},
       isShowChatBox: false,
       currentChatUser: '',
-      currentChatSocketId: ''
+      currentChatSocketId: '',
+      msgStore: {}
     }
   }
   componentWillMount ()  {
@@ -27,14 +28,23 @@ class Main extends React.Component {
       this.setState({
         userList: data
       })
-      console.log('-=====userlist===')
       console.log(data)
     })
     socket.on('sys', function(data){
       console.log(data)
     })
-    socket.on('msg', function(data){
+    socket.on('msg', (data) => {
       console.log(data)
+      let store = this.state.msgStore
+      let msgFrom = data.from
+      if(!store[msgFrom]) {
+        store[msgFrom] = []
+      }
+      store[msgFrom].push(data)
+      this.setState({
+        msgStore: store
+      })
+      console.log(this.state.msgStore)
     })
     this.setState({
       socketClient: socket
@@ -51,8 +61,8 @@ class Main extends React.Component {
       return (
         <div id='main'>
           <Header />
-          {this.state.isShowChatBox ? <ChatBox currentChatSocketId={this.state.currentChatSocketId} socketClient={this.state.socketClient} currentChatUser={this.state.currentChatUser} /> : null}
-          <UserList switchChatBox={this.switchChatBox} socketClient={this.state.socketClient} userList={this.state.userList}/>
+          {this.state.isShowChatBox ? <ChatBox msgStore={this.state.msgStore} currentChatSocketId={this.state.currentChatSocketId} socketClient={this.state.socketClient} currentChatUser={this.state.currentChatUser} /> : null}
+          <UserList msgStore={this.state.msgStore} socketClient={this.state.socketClient} userList={this.state.userList}/>
         </div>
       )
   }

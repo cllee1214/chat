@@ -10,4 +10,19 @@
     historyrouter 需要服务器配合  file直接不能打开  是否能保存状态待测试
 
 - 3.关于公共模块的提取:   
-  现在是webpack4.x  已经废除了commonChunksPlugin,用SplitChunksPlugin
+  现在是webpack4.x  已经废除了commonChunksPlugin,用SplitChunksPlugin。
+  [SplitChunksPlugin官方文档](https://webpack.js.org/plugins/split-chunks-plugin/#src/components/Sidebar/Sidebar.jsx)在这里
+
+  - ### 默认设置
+
+    包满足在下面的任一两个条件，webpack会自动的 splits chunks：
+    -  被分享的或者是是来自于node_modules的
+    -  压缩前体积大于30kb
+    -  按需加载次数小于等于5
+    -  初始化请求次数小于等于3
+
+
+
+
+  
+

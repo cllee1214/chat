@@ -15,17 +15,37 @@
     bottom: 0;
 }
 .user-item{
-    height: 30px;
-    line-height: 30px;
-    text-indent: 15px;
-}
-.user-item:hover{
-    background: #ccc;
     height: 50px;
     line-height: 50px;
+    text-indent: 15px;
+    border:1px solid #ccc;
+    position: relative;
+    width: 80%;
+    margin: auto;
+    margin-top: 25px;
+}
+.user-item .msg-num{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 20px;
+    background: orangered;
+    color: #fff;
+    text-indent: 0;
+    right:-10px;
+    top:-10px;
+}
+.user-item:hover{
     transition: all .5s ease-in-out 0s;
     cursor: pointer;
+    border:1px dashed orangered;
+    border-radius: 5px;
+    width: 90%;
 }
+
+
 /* header */
 .header{
     width: 100%;

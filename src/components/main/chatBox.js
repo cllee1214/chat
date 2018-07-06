@@ -24,11 +24,23 @@ class ChartBox extends React.Component {
     })
   }
   render() {
+      let contentList = this.props.msgStore[this.props.currentChatUser] || []
+      console.log(this.props.msgStore)
+      console.log(this.props.currentChatUser)
+      let contentDetail = contentList.map(function(content){
+        return (
+          <div class="content-detail">
+          {content.from}说：{content.msg}
+          </div>
+        )
+      })
       return (
         <div class="chat-box">
           <div class='chat-box-wrap'>
             <div class='user'>{this.props.currentChatUser}</div>
-            <div class='content'>内容显示</div>
+            <div class='content'>
+              {contentDetail}
+            </div>
             <div class='msg-edit'>
               <textarea onChange={(e) => this.setState({msg: e.target.value})} value= {this.state.msg}/>
             </div>
