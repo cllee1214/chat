@@ -6,6 +6,8 @@ import Login from './components/login/index'
 import Main from './components/main/index'
 import Test from './components/test/index'
 
+import './util/init.css'
+
 class App extends React.Component {
   constructor (props) {
     super(props)

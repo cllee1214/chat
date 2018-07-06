@@ -8,13 +8,11 @@ class UserList extends React.Component {
     let userList = this.props.userList
     let userKeys = Object.keys(userList)
     let items = userKeys.map((key) =>{
-      console.log('dfd',userList[key])
-      return <li key={key}>{userList[key]}</li>
+      return <li class='user-item' key={key}>{key}</li>
     })
     return (
-      <div>
+      <div class='user-list'>
         <ul>
-          userlist
           {items}
         </ul>
       </div>

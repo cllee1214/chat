@@ -34,6 +34,29 @@ module.exports = {
       }
     ]
   },
+  // optimization: {
+  //   splitChunks: {
+  //     chunks: 'all',
+  //     minSize: 30000,
+  //     minChunks: 1,
+  //     maxAsyncRequests: 5,
+  //     maxInitialRequests: 3,
+  //     automaticNameDelimiter: '_',
+  //     name: true,
+  //     cacheGroups: {
+  //       vendors: {
+  //         test: /[\\/]node_modules[\\/]/,
+  //         priority: -10,
+  //         name: 'vendors'
+  //       },
+  //       default: {
+  //         minChunks: 2,
+  //         priority: -20,
+  //         reuseExistingChunk: true
+  //       }
+  //     }
+  //   }
+  // },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
@@ -42,6 +65,9 @@ module.exports = {
     }),
     new CleanWebpackPlugin(['dist']),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin()
+    new webpack.NamedModulesPlugin(),
+    // new webpack.DllReferencePlugin({
+    //   manifest: require('./dist/vendor-manifest.json')
+    // })
     ]
 };

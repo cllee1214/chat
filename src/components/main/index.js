@@ -2,6 +2,9 @@ import React from 'react'
 import SocketIO from 'socket.io-client'
 
 import UserList from './userList'
+import Header from './header'
+
+import './index.css'
 
 class Main extends React.Component {
   constructor (props) {
@@ -26,7 +29,8 @@ class Main extends React.Component {
   }
   render() {
       return (
-        <div>
+        <div id='main'>
+          <Header />
           <UserList userList={this.state.userList}/>
         </div>
       )
