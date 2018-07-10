@@ -18,8 +18,8 @@ class UserList extends React.Component {
     let userKeys = Object.keys(userList)
     let items = userKeys.map((key) =>{
       return <li class='user-item' onClick={(e) => this.switchChatBox(key, userList[key])} key={key}>
-      {this.props.msgStore[key] && this.props.msgStore[key].length ? (<span class='msg-num'>{this.props.msgStore[key].length}</span>) : null}
-      {key}
+        {this.props.msgStore[key] && this.props.msgStore[key].length ? (<span class='msg-num'>{this.props.msgStore[key].length}</span>) : null}
+        {key}
       </li>
     })
     return (

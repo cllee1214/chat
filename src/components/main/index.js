@@ -34,17 +34,7 @@ class Main extends React.Component {
       console.log(data)
     })
     socket.on('msg', (data) => {
-      console.log(data)
-      let store = this.state.msgStore
-      let msgFrom = data.from
-      if(!store[msgFrom]) {
-        store[msgFrom] = []
-      }
-      store[msgFrom].push(data)
-      this.setState({
-        msgStore: store
-      })
-      console.log(this.state.msgStore)
+      this.updateMsgStore(data)
     })
     this.setState({
       socketClient: socket
@@ -55,6 +45,20 @@ class Main extends React.Component {
         currentChatUser: data.currentChatUser,
         currentChatSocketId: data.currentChatSocketId
       })
+    })
+    emitter.addListener('updateMsgStore', (data) => {
+      this.updateMsgStore(data)
+    })
+  }
+  updateMsgStore(data) {
+    let store = this.state.msgStore
+    let msgFrom = data.from
+    if(!store[msgFrom]) {
+      store[msgFrom] = []
+    }
+    store[msgFrom].push(data)
+    this.setState({
+      msgStore: store
     })
   }
   render() {

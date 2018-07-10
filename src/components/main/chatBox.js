@@ -10,10 +10,16 @@ class ChartBox extends React.Component {
   sendMegToSingle() {
     const socket = this.props.socketClient
     let currentChatSocketId = this.props.currentChatSocketId
+    let from = localStorage.getItem('nickname')
     socket.emit('msg', {
       currentChatSocketId,
       msg: this.state.msg,
-      from: localStorage.getItem('nickname')
+      from: from
+    })
+    emitter.emit('updateMsgStore', {
+      from: this.props.currentChatUser,
+      msg: this.state.msg,
+      isSelfSend: true
     })
   }
   close() {
@@ -27,10 +33,13 @@ class ChartBox extends React.Component {
       let contentList = this.props.msgStore[this.props.currentChatUser] || []
       console.log(this.props.msgStore)
       console.log(this.props.currentChatUser)
+     
       let contentDetail = contentList.map(function(content){
+        let nameStyle = content.isSelfSend ? {display: 'none'} : null
         return (
-          <div class="content-detail">
-          {content.from}说：{content.msg}
+          <div className={'content-detail' + (content.isSelfSend ? ' by-self': '')}>
+            <div style={nameStyle} class='name'>{content.isSelfSend ? '我自己' : content.from}</div>
+            <div class='content-msg'>{content.msg}</div>
           </div>
         )
       })

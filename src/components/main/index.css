@@ -79,6 +79,38 @@
     height: 570px;
     border-bottom: 1px solid #ccc;
 }
+.chat-box .content .content-detail{
+    padding: 15px 15px;
+    overflow: hidden;
+}
+.chat-box .content .content-detail .name{
+    color: #ccc;
+    float: left;
+    width: 100%;
+}
+.chat-box .content .content-detail .content-msg{
+    float: left;
+    background: #eee;
+    padding: 0 10px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+.chat-box .content .content-detail.by-self .name{
+    color: #ccc;
+    text-align: right;
+    width: 100%;
+}
+.chat-box .content .content-detail.by-self .content-msg{
+    float: right;
+    background: #F0FFFF;
+    padding: 0 10px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
 .chat-box .btns{
     width: 100%;
     position: absolute;
