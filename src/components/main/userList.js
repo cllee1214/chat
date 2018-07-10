@@ -14,11 +14,26 @@ class UserList extends React.Component {
   }
   render() {
     let userList = this.props.userList
+    let isShowChatBox = this.props.isShowChatBox
     console.log(userList)
     let userKeys = Object.keys(userList)
     let items = userKeys.map((key) =>{
-      return <li class='user-item' onClick={(e) => this.switchChatBox(key, userList[key])} key={key}>
-        {this.props.msgStore[key] && this.props.msgStore[key].length ? (<span class='msg-num'>{this.props.msgStore[key].length}</span>) : null}
+      let msgNum = (this.props.msgStore[key] || []).filter(function(item){
+        return !item.isSelfSend
+      }).length 
+      let msgNumStyle = null
+      if(msgNum){
+        if(key == localStorage.getItem('nickname')){
+          msgNumStyle = {display: 'none'}
+        }
+      }else{
+        msgNumStyle = {display: 'none'}
+      }
+      return key == localStorage.getItem('nickname') ?
+      null
+      :
+      <li class='user-item' onClick={(e) => this.switchChatBox(key, userList[key])} key={key}>
+        {this.props.msgStore[key] && this.props.msgStore[key].length ? (<span style={msgNumStyle} class='msg-num'>{msgNum}</span>) : null}
         {key}
       </li>
     })

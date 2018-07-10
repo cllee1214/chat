@@ -65,8 +65,8 @@ class Main extends React.Component {
       return (
         <div id='main'>
           <Header />
-          {this.state.isShowChatBox ? <ChatBox msgStore={this.state.msgStore} currentChatSocketId={this.state.currentChatSocketId} socketClient={this.state.socketClient} currentChatUser={this.state.currentChatUser} /> : null}
-          <UserList msgStore={this.state.msgStore} socketClient={this.state.socketClient} userList={this.state.userList}/>
+          {this.state.isShowChatBox ? <ChatBox  msgStore={this.state.msgStore} currentChatSocketId={this.state.currentChatSocketId} socketClient={this.state.socketClient} currentChatUser={this.state.currentChatUser} /> : null}
+          <UserList isShowChatBox={this.state.isShowChatBox} msgStore={this.state.msgStore} socketClient={this.state.socketClient} userList={this.state.userList}/>
         </div>
       )
   }
