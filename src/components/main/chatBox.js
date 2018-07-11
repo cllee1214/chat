@@ -14,12 +14,12 @@ class ChartBox extends React.Component {
     socket.emit('msg', {
       currentChatSocketId,
       msg: this.state.msg,
-      from: from
+      from,
+      belong: from
     })
-    emitter.emit('updateMsgStore', {
-      from: this.props.currentChatUser,
+    emitter.emit('addSelfMsg', {
       msg: this.state.msg,
-      isSelfSend: true
+      from
     })
   }
   close() {

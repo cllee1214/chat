@@ -34,29 +34,54 @@ class Main extends React.Component {
       console.log(data)
     })
     socket.on('msg', (data) => {
-      this.updateMsgStore(data)
+      console.log('recive msg', data)
+      data = this.markReadAndisSendSelf(data, this.state.currentChatUser)
+      this.addMsg2Store(data)
     })
     this.setState({
       socketClient: socket
     })
     emitter.addListener('switchChatBox', (data) => {
+      let currentChatUser = data.currentChatUser
       this.setState({
         isShowChatBox: data.status,
-        currentChatUser: data.currentChatUser,
+        currentChatUser,
         currentChatSocketId: data.currentChatSocketId
       })
+      this.updateReadAndisSendSelf(currentChatUser)
     })
-    emitter.addListener('updateMsgStore', (data) => {
-      this.updateMsgStore(data)
+    emitter.addListener('addSelfMsg', (data) => {
+      data.belong = this.state.currentChatUser
+      data = this.markReadAndisSendSelf(data, data.belong)
+      this.addMsg2Store(data)
     })
   }
-  updateMsgStore(data) {
+  updateReadAndisSendSelf(currentChatUser) {
     let store = this.state.msgStore
-    let msgFrom = data.from
-    if(!store[msgFrom]) {
-      store[msgFrom] = []
+    let currentUserStore =  store[currentChatUser] || []
+    let newCurrentUserStore = currentUserStore.map((data) => {
+      return this.markReadAndisSendSelf(data, currentChatUser)
+    })
+    store[currentChatUser] = newCurrentUserStore
+    this.setState({
+      msgStore: store
+    })
+  }
+  //标记是否已读、是否是自己发的信息
+  markReadAndisSendSelf(data, currentChatUser) {
+    let self = localStorage.getItem('nickname')
+    let from = data.from
+    data.hasRead = (self === from || from === currentChatUser)
+    data.isSelfSend = self == from
+    return data
+  }
+  addMsg2Store(data) {  
+    let store = this.state.msgStore
+    let msgBelong = data.belong
+    if(!store[msgBelong]) {
+      store[msgBelong] = []
     }
-    store[msgFrom].push(data)
+    store[msgBelong].push(data)
     this.setState({
       msgStore: store
     })

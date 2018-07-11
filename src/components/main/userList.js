@@ -6,7 +6,7 @@ class UserList extends React.Component {
     super(props)
   }
   switchChatBox(currentChatUser, currentChatSocketId) {
-    emitter.emit('switchChatBox',{
+    emitter.emit('switchChatBox', {
       currentChatUser,
       currentChatSocketId,
       status: true
@@ -19,16 +19,10 @@ class UserList extends React.Component {
     let userKeys = Object.keys(userList)
     let items = userKeys.map((key) =>{
       let msgNum = (this.props.msgStore[key] || []).filter(function(item){
-        return !item.isSelfSend
+        return !item.hasRead
       }).length 
       let msgNumStyle = null
-      if(msgNum){
-        if(key == localStorage.getItem('nickname')){
-          msgNumStyle = {display: 'none'}
-        }
-      }else{
-        msgNumStyle = {display: 'none'}
-      }
+      msgNumStyle = msgNum == 0 ? {display: 'none'} : null
       return key == localStorage.getItem('nickname') ?
       null
       :

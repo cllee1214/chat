@@ -54,7 +54,8 @@ var serverClient = io.on('connection', function (socket) {
     var id = data.currentChatSocketId
     socket.to(id).emit('msg',{
       from: data.from,
-      msg: data.msg
+      msg: data.msg,
+      belong: data.belong
     })
     console.log(data)
   })
