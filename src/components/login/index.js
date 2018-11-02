@@ -1,29 +1,57 @@
 import React from 'react'
+import Requst from '../../util/requst'
+import { List, InputItem, WhiteSpace,Button,Toast } from 'antd-mobile';
+
 import './index.css'
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      nickname: ''
+      nickname: '',
+      password: '',
+      isLoading: false
     }
-    this.handleClick = this.handleClick.bind(this);
   }
-  handleClick() {
+  submit() {
     let nickname = this.state.nickname
-    localStorage.setItem('nickname', nickname)
-    window.location.replace('#/main')
+    let password = this.state.password
+    this.state.isLoading = true
+    Requst.post('/login', {
+      nickname,
+      password
+    }).then((res) => {
+      if(res.data.code === 1){
+        Toast.success(res.data.msg, 2 ,()=>{
+          this.props.history.push('/main')
+        })
+      }else{
+        Toast.fail(res.data.msg)
+      }
+    }).catch((err) => {
+      Toast.offline('网络错误，请稍后再试！')
+    }).finally(() => {
+      this.state.isLoading = false
+    })
   }
-  handleChange(e) {
-    console.log(e.target.value)
-    this.setState({nickname: e.target.value})
+  handleNicknameChange(value) {
+    this.setState({nickname: value})
+  }
+  handlePasswordChange(value) {
+    this.setState({password: value})
   }
   render() {
       return(
-      <div class='login-zone'>
-        <label>配置用户：</label>
-        <input type="text" placeholder="请输入昵称吧" value={this.state.nickname} onChange={(e) => this.handleChange(e)}/>
-        <button onClick={this.handleClick}>go</button>
+      <div style={{width: '80%',margin:'auto',paddingTop: '100px'}}>
+        <List>
+          <InputItem type='text' placeholder="昵称" onChange={(value) => this.handleNicknameChange(value)}></InputItem>
+        </List>
+        <WhiteSpace />
+        <List>
+          <InputItem type='password'  placeholder="密码" onChange={(value) => this.handlePasswordChange(value)}></InputItem>
+        </List>
+        <WhiteSpace />
+        <Button type='primary' loading={this.state.isLoading} onClick={() => this.submit()}>登录</Button>
       </div>
       )
   }

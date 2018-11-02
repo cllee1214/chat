@@ -1,12 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { HashRouter as Router, Route, Switch, Link, hashHistory} from 'react-router-dom'
+import { BrowserRouter, Route, Switch} from 'react-router-dom'
 
 import Login from './components/login/index'
 import Main from './components/main/index'
 import Test from './components/test/index'
 
 import './util/init.css'
+import 'antd-mobile/dist/antd-mobile.css'
 
 class App extends React.Component {
   constructor (props) {
@@ -15,20 +16,20 @@ class App extends React.Component {
   render() {
       return (
         <div>
-          <Login />
+          <Login  history={this.props.history} />
         </div>
       )
   }
 }
 
-ReactDOM.render((
-  <Router>
-  <Switch>
-      <Route path='/' component={App} exact />
-      <Route path='/test' component={Test}  />
-      <Route path='/login' component={Login}  />
-      <Route path='/main' component={Main}  />
-  </Switch>
-</Router>
-),document.getElementById('app'));
+ReactDOM.render(
+  <BrowserRouter>
+    <Switch>
+        <Route path='/' exact component={App} />
+        <Route path='/test' component={Test} exact />
+        <Route path='/login' component={Login} exact />
+        <Route path='/main' component={Main} />
+        <Route component={Test}/>
+    </Switch>
+  </BrowserRouter>, document.getElementById('app'));
 

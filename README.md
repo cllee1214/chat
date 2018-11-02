@@ -26,3 +26,9 @@
 
   
 
+##  重构日志：
+
+- v0.1修改为移动端版本  
+  使用ant desin mobile  
+  增加jwt验证登录  
+  使用mongodb mongoose
