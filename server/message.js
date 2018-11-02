@@ -1,7 +1,8 @@
 const server = require('./creatServer')
 const io = require("socket.io")(server);
+const MessageHelper = new require('./messageHelper')
 
-var userList = {}
+const messageHelper = new MessageHelper()
 
 var serverClient = io.on('connection', function (socket) {
   var nickname = socket.handshake.query.nickname
@@ -10,7 +11,7 @@ var serverClient = io.on('connection', function (socket) {
   // 上线
   // 1.存储相关信息
   // 2.通知其他用户
-  userList[nickname] = id
+  messageHelper.accessUserMap(nickname, id)
   serverClient.emit('sys', {
     user: nickname,
     msg: nickname + "上线",
@@ -24,7 +25,7 @@ var serverClient = io.on('connection', function (socket) {
   // 1.删除用户
   // 2.通知其他用户
   socket.on('disconnect', function(reason){
-    delete userList[nickname]
+    messageHelper.accessUserMap(nickname)
     serverClient.emit('sys', {
       user: nickname,
       msg: nickname + "离线"
