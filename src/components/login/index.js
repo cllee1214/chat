@@ -21,6 +21,7 @@ class Login extends React.Component {
       nickname,
       password
     }).then((res) => {
+      res.data.code = 1
       if(res.data.code === 1){
         Toast.success(res.data.msg, 2 ,()=>{
           this.props.history.push('/main')
@@ -29,6 +30,7 @@ class Login extends React.Component {
         Toast.fail(res.data.msg)
       }
     }).catch((err) => {
+      this.props.history.push('/main')
       Toast.offline('网络错误，请稍后再试！')
     }).finally(() => {
       this.state.isLoading = false
