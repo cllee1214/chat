@@ -19,7 +19,7 @@ var serverClient = io.on('connection', function (socket) {
  
 
   //发送在线用户列表
-  serverClient.emit('userList', userList);
+  serverClient.emit('userList', messageHelper.userMap);
 
   // 离线
   // 1.删除用户

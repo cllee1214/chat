@@ -6,6 +6,10 @@ import Login from './components/login/index'
 import Main from './components/main/index'
 import Test from './components/test/index'
 
+//高阶组件  判断登录
+import HocAuthCreater from './components/login/auth'
+const HocAuth = HocAuthCreater(Main)
+
 import './util/init.css'
 import 'antd-mobile/dist/antd-mobile.css'
 
@@ -28,8 +32,11 @@ ReactDOM.render(
         <Route path='/' exact component={App} />
         <Route path='/test' component={Test} exact />
         <Route path='/login' component={Login} exact />
-        <Route path='/main' component={Main} />
-        <Route component={Test}/>
+      
+
+        <HocAuth path='/test_auth' />
+
+        <Route component={Test} />
     </Switch>
   </BrowserRouter>, document.getElementById('app'));
 

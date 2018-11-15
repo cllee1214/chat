@@ -1,6 +1,7 @@
 import React from 'react'
 import Requst from '../../util/requst'
 import { List, InputItem, WhiteSpace,Button,Toast } from 'antd-mobile';
+import Store from '../../util/store'
 
 import './index.css'
 
@@ -24,6 +25,7 @@ class Login extends React.Component {
       res.data.code = 1
       if(res.data.code === 1){
         Toast.success(res.data.msg, 2 ,()=>{
+          Store.set('token', res.data.token)
           this.props.history.push('/main')
         })
       }else{
