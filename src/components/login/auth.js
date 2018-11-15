@@ -2,6 +2,8 @@
 import React from 'react'
 import Store from '../../util/store'
 
+import Login from '../login/index'
+
 function HocAuthCreater(BaseComponent, hocProps){
   return class LoginAuth extends React.Component {
     constructor (props){
@@ -20,12 +22,13 @@ function HocAuthCreater(BaseComponent, hocProps){
     }
 
     render() {
+      console.log(hocProps)
      let isLogin = this.state.isLogin
      console.log(isLogin)
      return isLogin ?
      (<BaseComponent {...hocProps} />)
      :
-     (<div>请登录</div>)
+     (<Login history={this.props.history} />)
     }
   }
 }
