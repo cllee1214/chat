@@ -13,3 +13,5 @@ class MessageHelper {
   }
   
 }
+
+module.exports = MessageHelper

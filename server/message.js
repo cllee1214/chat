@@ -1,10 +1,11 @@
 const server = require('./creatServer')
 const io = require("socket.io")(server);
-const MessageHelper = new require('./messageHelper')
+const MessageHelper =  require('./messageHelper')
 
 const messageHelper = new MessageHelper()
 
 var serverClient = io.on('connection', function (socket) {
+  console.log(2222)
   var nickname = socket.handshake.query.nickname
   var id = socket.id
 
@@ -44,3 +45,5 @@ var serverClient = io.on('connection', function (socket) {
   })
   
 });
+
+module.exports = server

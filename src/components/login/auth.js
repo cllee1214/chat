@@ -1,7 +1,7 @@
 
 import React from 'react'
 import Store from '../../util/store'
-
+import {Redirect}  from 'react-router-dom'
 import Login from '../login/index'
 
 function HocAuthCreater(BaseComponent, hocProps){
@@ -9,26 +9,21 @@ function HocAuthCreater(BaseComponent, hocProps){
     constructor (props){
       super(props)
       this.state = {
-        isLogin: false
+        isLogin: !!Store.get('token')
       }
     }
 
     componentWillMount () {
-      let isLogin = !!Store.get('token')
-      console.log(isLogin)
-      this.setState({
-        isLogin
-      })
+
     }
 
     render() {
-      console.log(hocProps)
+      console.log(this.props)
      let isLogin = this.state.isLogin
-     console.log(isLogin)
      return isLogin ?
-     (<BaseComponent {...hocProps} />)
+     <BaseComponent {...hocProps} history={this.props.history} />
      :
-     (<Login history={this.props.history} />)
+     <Redirect to='/login' />
     }
   }
 }
