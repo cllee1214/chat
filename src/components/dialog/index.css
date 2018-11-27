@@ -1,0 +1,42 @@
+.dialog-box{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 1;
+  top:0;
+  left:0;
+  background: #fff;
+  display: flex;
+  flex-direction: column
+}
+.dialog-box .title{
+  width: 100%;
+  font-size: 16px;
+  color: #000;
+  text-align: center;
+  line-height: 40px;
+  border-bottom: 1px solid #ddd;
+}
+.input-in{
+  width: 100%;
+  height: 45px;
+}
+.message-list{
+  flex: 1;
+  padding: 10px;
+}
+.message-list .item{
+  overflow: hidden;
+}
+.message-list .item span{
+  background: #1890ff;
+  line-height: 30px;
+  color: #fff;
+  border-radius: 5px;
+  float: left;
+  padding: 0 5px;
+}
+.message-list .item span.other{
+  background: #ccc;
+  float: right;
+}

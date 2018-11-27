@@ -6,6 +6,7 @@ import SocketIO from 'socket.io-client'
 
 import Message from '../message/index'
 import FriendsList from '../friends/index'
+import Dialog from '../dialog/index'
 
 import Store from '../../util/store'
 
@@ -96,6 +97,7 @@ class Main extends React.Component {
               <Switch>
                 <Route path='/main/message' exact  component={Message} />
                 <Route path='/main/friends' exact  render={() => <FriendsList userList={userList} />}/>
+                <Route path='/main/dialog' exact  component={Dialog} />
               </Switch>
           </div>
         </div>
