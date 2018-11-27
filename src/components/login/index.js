@@ -22,7 +22,10 @@ class Login extends React.Component {
       password
     }).then((res) => {
       if(res.data.code === 1){
-        Store.set('token', res.data.token)
+        Store.set('token', {
+          content:  res.data.token,
+          nickname: nickname
+        })
         Toast.success(res.data.msg, 2 ,()=>{
           this.props.history.push('/main/message')
         })

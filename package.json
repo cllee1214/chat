@@ -43,7 +43,8 @@
     "start": "electron  .",
     "build": "webpack",
     "watch": "webpack --watch",
-    "server": "webpack-dev-server --open --mode development",
+    "dev": "webpack-dev-server --open --mode development",
+    "server": "cd server && supervisor index",
     "build:dll": "webpack --config webpack.dll.config.js"
   },
   "author": "",

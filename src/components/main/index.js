@@ -6,7 +6,8 @@ import SocketIO from 'socket.io-client'
 
 import Message from '../message/index'
 import FriendsList from '../friends/index'
-import { throws } from 'assert';
+
+import Store from '../../util/store'
 
 const tabBarConfig = [
   {
@@ -32,7 +33,7 @@ class Main extends React.Component {
     super(props)
     this.state = {
       currentSelect: 'Message',
-      userList: []
+      userList: {}
     }
   }
 
@@ -40,12 +41,12 @@ class Main extends React.Component {
     this.setState({
       currentSelect: title
     })
-    console.log('changetab')
+    console.log('changetab to' + title)
     this.props.history.push('/main/'+ title.toLowerCase())
   }
 
   componentWillMount(){
-    let nickname = 'dfdfdf'
+    let nickname = Store.get('token').nickname
     const socket = SocketIO('http://127.0.0.1:3000/?nickname=' + nickname)
     socket.on('userList', (data) => {
       this.setState({
@@ -94,7 +95,7 @@ class Main extends React.Component {
           <div className='rt'>
               <Switch>
                 <Route path='/main/message' exact  component={Message} />
-                <Route path='/main/friends' exact render={() =>{return <FriendsList userList={userList} />}} />
+                <Route path='/main/friends' exact  render={() => <FriendsList userList={userList} />}/>
               </Switch>
           </div>
         </div>
