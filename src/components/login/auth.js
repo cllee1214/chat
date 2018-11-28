@@ -18,7 +18,6 @@ function HocAuthCreater(BaseComponent, hocProps){
     }
 
     render() {
-      console.log(this.props)
      let isLogin = this.state.isLogin
      return isLogin ?
      <BaseComponent {...hocProps} history={this.props.history} />

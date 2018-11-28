@@ -1,18 +1,57 @@
 import React from 'react'
-import {Route} from 'react-router-dom'
+import {Route, withRouter} from 'react-router-dom'
 import { List, InputItem, WhiteSpace,Button,Toast } from 'antd-mobile';
+
+import Store from '../../util/store'
+
 require('./index.css')
 
 class Dialog extends React.Component {
   constructor (props) {
     super(props)
+    this.state = {
+      user: null,
+      message: ''
+    }
+  }
+
+  componentWillMount() {
+    this.setState({
+      user: this.props.location.query
+    })
+  }
+
+  handleMessage(value) {
+    this.setState({
+      message: value
+    })
+  }
+
+  addSelfMessage(data) {
+    let updateMessageStoreFn = this.props.updateMessageStore
+    updateMessageStoreFn(data)
+  }
+
+  submit() {
+    let message = this.state.message
+    let socket = this.props.socket
+    let user = this.state.user
+    this.addSelfMessage({
+      message,
+      from: user.name
+    })
+    socket.emit('msg', {
+      id: user.id,
+      message,
+      from: Store.get('token').nickname
+    })
   }
 
   render() {
       return (
-        <div class='dialog-box'>
-          <p class='title'>与Cai聊天中...</p>
-          <div class='message-list'>
+        <div className='dialog-box'>
+          <p className='title'>与{this.state.user.name}聊天中...</p>
+          <div className='message-list'>
               <div className='item'>
                 <span>地方大幅度发辅导费</span>
               </div>
@@ -20,14 +59,19 @@ class Dialog extends React.Component {
                 <span className='other'>地方大幅度发辅导费</span>
               </div>
           </div> 
-          <div class='input-in'>
-            <List>
-              <InputItem type='text' style={{width:"50%",float:'left'}} placeholder="请输入"></InputItem>
-            </List>
+          <div className='input-in'>
+            <div className='input'>
+              <List>
+                <InputItem onChange={(value)=> this.handleMessage(value)} type='text' placeholder="请输入"></InputItem>
+              </List>
+            </div>
+            <div className='btn'>
+              <Button type='primary' size='small' onClick={()=>this.submit()}>Go</Button>
+            </div>
           </div>
         </div>
       )
   }
 }
 
-export default Dialog
+export default withRouter(Dialog) 

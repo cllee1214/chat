@@ -21,6 +21,15 @@
   width: 100%;
   height: 45px;
 }
+.input{
+  width: 70%;
+  float: left;
+}
+.btn{
+  width: 20%;
+  float: right;
+  padding-top: 10px;
+}
 .message-list{
   flex: 1;
   padding: 10px;

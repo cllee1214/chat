@@ -34,7 +34,9 @@ class Main extends React.Component {
     super(props)
     this.state = {
       currentSelect: 'Message',
-      userList: {}
+      userList: {},
+      socket: null,
+      messageStore: {}
     }
   }
 
@@ -48,7 +50,10 @@ class Main extends React.Component {
 
   componentWillMount(){
     let nickname = Store.get('token').nickname
-    const socket = SocketIO('http://127.0.0.1:3000/?nickname=' + nickname)
+    const socket =  SocketIO('http://127.0.0.1:3000/?nickname=' + nickname)
+    this.setState({
+      socket: socket
+    })
     socket.on('userList', (data) => {
       this.setState({
         userList: data
@@ -58,10 +63,31 @@ class Main extends React.Component {
     socket.on('sys', function(data){
       console.log(data)
     })
+    socket.on('msg', (data) => {
+      console.log('recive:',data)
+      this.updateMessageStore(data)
+    })
+  }
+
+  updateMessageStore(data) {
+    let messageStore = this.state.messageStore
+    var from = data.from
+    if(!messageStore[from]){
+        messageStore[from] = {
+        unreadLen: 0,
+        messages: []
+      }
+    }
+    messageStore[from].messages.push({...data})
+    this.setState({
+      messageStore: messageStore
+    })
+    console.log(messageStore)
   }
 
   render() {
       let userList = this.state.userList
+      let socket = this.state.socket
       let tabBarItemList = tabBarConfig.map((config) => {
         return <TabBar.Item 
             title={config.title} 
@@ -96,8 +122,8 @@ class Main extends React.Component {
           <div className='rt'>
               <Switch>
                 <Route path='/main/message' exact  component={Message} />
-                <Route path='/main/friends' exact  render={() => <FriendsList userList={userList} />}/>
-                <Route path='/main/dialog' exact  component={Dialog} />
+                <Route path='/main/friends' exact  render={() => <FriendsList history={this.props.history} userList={userList} />}/>
+                <Route path='/main/dialog' exact  render={()=> <Dialog socket={socket} updateMessageStore={this.updateMessageStore.bind(this)}/>} />
               </Switch>
           </div>
         </div>

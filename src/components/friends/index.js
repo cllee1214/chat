@@ -8,6 +8,13 @@ class FriendsList extends React.Component {
     super(props)
   }
 
+  switchDialog(user) {
+    this.props.history.push({
+      pathname:'/main/dialog',
+      query: user
+    })
+  }
+
   render() {
       let userList = this.props.userList
       let userListArr = []
@@ -17,13 +24,11 @@ class FriendsList extends React.Component {
           id: userList[key]
         })
       }
-      console.log(userListArr)
       let AllList = userListArr.length ? userListArr.map((user) => {
-        console.log(user)
-        return (<List>
+        return (<List  key={user.id}>
         <Item  thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
                arrow="horizontal"
-               onClick={() => {}}
+               onClick={() => this.switchDialog(user)}
                >{user.name}</Item>
         </List>)
       }) : (<div>暂无好友上线</div>)

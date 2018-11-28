@@ -5,7 +5,6 @@ const MessageHelper =  require('./messageHelper')
 const messageHelper = new MessageHelper()
 
 var serverClient = io.on('connection', function (socket) {
-  console.log(2222)
   var nickname = socket.handshake.query.nickname
   var id = socket.id
 
@@ -35,11 +34,11 @@ var serverClient = io.on('connection', function (socket) {
 
   //转发消息
   socket.on('msg',function(data){
-    var id = data.currentChatSocketId
+    var id = data.id
     socket.to(id).emit('msg',{
-      from: data.from,
-      msg: data.msg,
-      belong: data.belong
+      id: id,
+      message: data.message,
+      from: data.from
     })
     console.log(data)
   })
