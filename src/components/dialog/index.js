@@ -36,28 +36,35 @@ class Dialog extends React.Component {
     let message = this.state.message
     let socket = this.props.socket
     let user = this.state.user
+    let nickname = Store.get('token').nickname
+
     this.addSelfMessage({
       message,
-      from: user.name
+      from: nickname,
+      key: user.name
     })
     socket.emit('msg', {
       id: user.id,
       message,
-      from: Store.get('token').nickname
+      from: nickname
     })
   }
 
   render() {
+      let currentMessageList = this.props.messageStore[this.state.user.name] ? this.props.messageStore[this.state.user.name].messages : []
+      let messageList = currentMessageList.map((item)=>{
+        return (
+        <div className='item'>
+          <div className='from'>{item.key ? '' : item.from}</div>
+          <span className={item.key ? '' : 'other'}>{item.message}</span>
+        </div>
+        )
+      })
       return (
         <div className='dialog-box'>
           <p className='title'>与{this.state.user.name}聊天中...</p>
           <div className='message-list'>
-              <div className='item'>
-                <span>地方大幅度发辅导费</span>
-              </div>
-              <div className='item'>
-                <span className='other'>地方大幅度发辅导费</span>
-              </div>
+             {messageList}
           </div> 
           <div className='input-in'>
             <div className='input'>

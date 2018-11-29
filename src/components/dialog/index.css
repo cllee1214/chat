@@ -37,15 +37,20 @@
 .message-list .item{
   overflow: hidden;
 }
+.message-list .item .from{
+  float: left;
+  padding-bottom: 5px;
+  width: 100%;
+}
 .message-list .item span{
   background: #1890ff;
   line-height: 30px;
   color: #fff;
   border-radius: 5px;
-  float: left;
+  float: right;
   padding: 0 5px;
 }
 .message-list .item span.other{
   background: #ccc;
-  float: right;
+  float: left;
 }

@@ -71,14 +71,14 @@ class Main extends React.Component {
 
   updateMessageStore(data) {
     let messageStore = this.state.messageStore
-    var from = data.from
-    if(!messageStore[from]){
-        messageStore[from] = {
+    var key = data.key || data.from
+    if(!messageStore[key]){
+        messageStore[key] = {
         unreadLen: 0,
         messages: []
       }
     }
-    messageStore[from].messages.push({...data})
+    messageStore[key].messages.push({...data})
     this.setState({
       messageStore: messageStore
     })
@@ -88,6 +88,7 @@ class Main extends React.Component {
   render() {
       let userList = this.state.userList
       let socket = this.state.socket
+      let messageStore = this.state.messageStore
       let tabBarItemList = tabBarConfig.map((config) => {
         return <TabBar.Item 
             title={config.title} 
@@ -123,7 +124,7 @@ class Main extends React.Component {
               <Switch>
                 <Route path='/main/message' exact  component={Message} />
                 <Route path='/main/friends' exact  render={() => <FriendsList history={this.props.history} userList={userList} />}/>
-                <Route path='/main/dialog' exact  render={()=> <Dialog socket={socket} updateMessageStore={this.updateMessageStore.bind(this)}/>} />
+                <Route path='/main/dialog' exact  render={()=> <Dialog messageStore={messageStore} socket={socket} updateMessageStore={this.updateMessageStore.bind(this)}/>} />
               </Switch>
           </div>
         </div>
