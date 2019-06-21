@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const webpack = require('webpack');
 
 module.exports = {
@@ -26,37 +27,15 @@ module.exports = {
       },
       {
         test: /\.js$/, 
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        options: {
-            presets: ['react', 'env']
-        }
+        loader: 'babel-loader'
+      },
+      {
+        test: /\.vue$/, 
+        loader: 'vue-loader'
       }
     ]
   },
-  // optimization: {
-  //   splitChunks: {
-  //     chunks: 'all',
-  //     minSize: 30000,
-  //     minChunks: 1,
-  //     maxAsyncRequests: 5,
-  //     maxInitialRequests: 3,
-  //     automaticNameDelimiter: '_',
-  //     name: true,
-  //     cacheGroups: {
-  //       vendors: {
-  //         test: /[\\/]node_modules[\\/]/,
-  //         priority: -10,
-  //         name: 'vendors'
-  //       },
-  //       default: {
-  //         minChunks: 2,
-  //         priority: -20,
-  //         reuseExistingChunk: true
-  //       }
-  //     }
-  //   }
-  // },
+
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
@@ -66,8 +45,6 @@ module.exports = {
     new CleanWebpackPlugin(['dist']),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
-    // new webpack.DllReferencePlugin({
-    //   manifest: require('./dist/vendor-manifest.json')
-    // })
+    new VueLoaderPlugin()
     ]
 };
