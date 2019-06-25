@@ -7,6 +7,7 @@
     "ejs": "^2.6.1",
     "events": "^3.0.0",
     "express": "^4.16.3",
+    "express-session": "^1.16.2",
     "socket.io": "^2.1.1",
     "vue": "^2.6.10",
     "vue-loader": "^15.7.0"
@@ -30,9 +31,10 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "watch": "webpack --watch",
-    "server": "webpack-dev-server --open"
+    "build": "webpack --mode=production",
+    "watch": "webpack --watch --mode=production",
+    "server": "webpack-dev-server --open --mode=production",
+    "backend": "supervisor serverListen.js"
   },
   "author": "",
   "license": "ISC"

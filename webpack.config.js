@@ -8,9 +8,9 @@ module.exports = {
   entry: './src/App.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'server/static')
   },
-  devtool: 'inline-source-map',
+  devtool: 'cheap-module-eval-source-map',
   devServer: {
     contentBase: './dist',
     hot: true,
@@ -38,7 +38,7 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      filename: 'index.html',
+      filename:  path.resolve(__dirname, 'server/view/home/index.html'),
       title: 'Output Management',
       template: "./index.html"
     }),

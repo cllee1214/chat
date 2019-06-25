@@ -6,6 +6,9 @@
       <li>加好友</li>
       <li>我的好友</li>
       <li>设置</li>
+      <li>
+        <a href="/logout">退出</a>
+      </li>
     </ul>
   </div>
 </template>

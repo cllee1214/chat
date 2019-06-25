@@ -1,20 +1,26 @@
 <template>
   <div id='container'>
     <Nav />
+    <ChatBox />
   </div>
 </template>
 
 <script>
 import Nav from './components/nav/index.vue'
+import ChatBox from './components/chat/chatBox.vue'
+import Personal from './components/personal/data.vue'
+
 export default {
   name: 'app',
   data: function(){
     return {
-      a: 11111
+  
     }
   },
   components: {
-    Nav
+    Nav,
+    ChatBox,
+    Personal
   }
 }
 </script>

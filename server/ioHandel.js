@@ -1,23 +1,6 @@
-var express = require('express');
-var app = express();
-var server = require('http').Server(app);
+var server = require('./createServer')
 var io = require("socket.io")(server);
-var ejs = require('ejs')
-var path = require('path')
 
-app.set('views', path.join(__dirname, 'dist'));
-app.engine('html', ejs.__express)
-app.set('view engine', 'html')
-app.use(express.static(path.join(__dirname, 'dist')));
-
-/* GET home page. */
-app.get('/', function(req, res, next) {
-  res.render('index');
-});
-
-server.listen(3000, function(){
-  console.log('ok')
-});
 
 var userList = {}
 
@@ -61,3 +44,6 @@ var serverClient = io.on('connection', function (socket) {
   })
   
 });
+
+
+module.exports = server
