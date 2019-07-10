@@ -9,14 +9,13 @@ var userInfo = require('./data')
 
 router.get('/home', function(req, res) {
   if(req.session.user){
-    res.render('home');
+    res.render('home', {user: req.session.user});
   }else{
     res.redirect('login')
   }
 });
 
 router.get('/login', function(req, res){
-  console.log(222)
   if(req.session.user){
     res.redirect('/home')
   }else{

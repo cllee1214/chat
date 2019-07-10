@@ -37,11 +37,6 @@ module.exports = {
   },
 
   plugins: [
-    new HtmlWebpackPlugin({
-      filename:  path.resolve(__dirname, 'server/view/home/index.html'),
-      title: 'Output Management',
-      template: "./index.html"
-    }),
     new CleanWebpackPlugin(['dist']),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
