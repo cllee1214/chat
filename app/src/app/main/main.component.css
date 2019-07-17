@@ -1,0 +1,9 @@
+.main{
+  width: 800px;
+  height: 600px;
+  background: rgb(242, 242, 240);
+}
+.main-right{
+  width: 600px;
+  height: 100%;
+}
