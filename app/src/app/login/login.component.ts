@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators,  FormControl} from '@angular/forms'
 import { LoginService } from './login.service'
 import { NzMessageService  } from 'ng-zorro-antd'
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-// import { from } from 'rxjs';
 
 interface LoginResult {
   code: string,
@@ -33,13 +32,11 @@ export class LoginComponent implements OnInit {
   }
 
   submitForm(loginInfo) {
-    console.log(loginInfo)
     this.loginService.check(loginInfo).subscribe((result:LoginResult)=>{
-      console.log(result)
       if(result.code === '0'){
         this.message.error(result.msg)
       }else if(result.code === '1'){
-        this.router.navigate(['/main'])
+        this.router.navigate(['/main',{name: loginInfo.userName}])
       }
     })
   }
