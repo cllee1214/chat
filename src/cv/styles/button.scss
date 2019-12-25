@@ -1,0 +1,50 @@
+
+@import './common.scss';
+
+.cv-btn{
+  text-align: center;
+  padding:0 15px;
+  height: 35px;
+  line-height: 35px;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  background: #ffffff;
+  color: rgba(0,0,0,0.6);
+  //types: 'defalut', 'dashed', 'text'
+  @each $type in default, dashed, text {
+    &.cv-btn-#{$type}{
+     @if $type == 'dashed' {
+       border: 2px dashed $borderColor
+     }
+     @else if $type == 'text' {
+       border: none
+     }
+     @else {
+      border: 2px solid $borderColor
+     }
+    }
+  }
+
+  .btn-content{
+    line-height: 35px;
+  }
+
+  &:hover{
+    border: 2px solid $borderHoverColor;
+    color: $borderHoverColor;
+  }
+
+  //shape: 'default', 'circle'
+  &.cv-btn-circle{
+    border-radius: $radius;
+  }
+
+  &.cv-btn-ghost{
+    background-color: transparent;
+  }
+  &.cv-btn-long{
+   width: 100%!important;
+   box-sizing: border-box; 
+  }
+}

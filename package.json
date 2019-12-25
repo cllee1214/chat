@@ -10,7 +10,8 @@
     "express-session": "^1.16.2",
     "socket.io": "^2.1.1",
     "vue": "^2.6.10",
-    "vue-loader": "^15.7.0"
+    "vue-loader": "^15.7.0",
+    "vue-router": "^3.0.7"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -21,8 +22,11 @@
     "clean-webpack-plugin": "^0.1.19",
     "crypto-js": "^3.1.9-1",
     "css-loader": "^0.28.11",
+    "file-loader": "^4.1.0",
     "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.12.0",
     "react-hot-loader": "^4.3.3",
+    "sass-loader": "^7.1.0",
     "style-loader": "^0.21.0",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.12.0",

@@ -1,14 +1,10 @@
 <template>
   <div id='container'>
-    <Nav />
-    <ChatBox />
+      <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Nav from './components/nav/index.vue'
-import ChatBox from './components/chat/chatBox.vue'
-import Personal from './components/personal/data.vue'
 
 export default {
   name: 'app',
@@ -18,9 +14,7 @@ export default {
     }
   },
   components: {
-    Nav,
-    ChatBox,
-    Personal
+   
   }
 }
 </script>
