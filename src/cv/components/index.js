@@ -1,10 +1,12 @@
 
 import Icon from './icon/index'
 import Button from './button/index'
+import Input from './input/index'
 
 const componentsMap = {
   CvButton: Button,
-  CvIcon: Icon
+  CvIcon: Icon,
+  CvInput: Input
 }
 
 

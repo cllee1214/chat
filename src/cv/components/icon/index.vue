@@ -5,7 +5,7 @@
 <script>
 import { isIn } from '../../utils';
 const prefix = 'cv-icon'
-const types = ['shuaxin','zhuye', 'xiaoxi', 'sousuo','tongzhi', 'fanhui', 'youjian', 'loading']
+const types = ['refresh','home', 'message', 'search','tongzhi', 'goback', 'email', 'loading']
 export default {
   name: 'Icon',
   props: {

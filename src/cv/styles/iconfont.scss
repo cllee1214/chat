@@ -15,31 +15,34 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.cv-icon-shuaxin:before {
+.cv-icon-refresh:before {
   content: "\e609";
 }
 
-.cv-icon-zhuye:before {
+.cv-icon-home:before {
   content: "\e61f";
 }
 
-.cv-icon-xiaoxi:before {
+.cv-icon-message:before {
   content: "\e621";
 }
 
-.cv-icon-sousuo:before {
+.cv-icon-search:before {
   content: "\e624";
+}
+.cv-icon-search:hover{
+  cursor: pointer;
 }
 
 .cv-icon-tongzhi:before {
   content: "\e629";
 }
 
-.cv-icon-fanhui:before {
+.cv-icon-goback:before {
   content: "\e645";
 }
 
-.cv-icon-youjian:before {
+.cv-icon-email:before {
   content: "\e647";
 }
 
