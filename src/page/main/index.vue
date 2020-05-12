@@ -1,14 +1,17 @@
 <template>
   <div id='main'>
-    <Nav></Nav>
+    <ChatBox></ChatBox>
   </div>
 </template>
 <script>
-import Nav from '../nav/index.vue'
+import ChatBox from '../chat/ChatBox.vue'
 export default {
-  name:'main',
+  name:'mainContainer',
   components: {
-    Nav
+    ChatBox
+  },
+  created () {
+    // console.log(window.USER)
   }
 }
 </script>

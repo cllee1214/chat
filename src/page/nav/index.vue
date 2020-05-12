@@ -3,8 +3,6 @@
     <ul>
       <li>聊天</li>
       <li>个人资料</li>
-      <li>加好友</li>
-      <li>我的好友</li>
       <li>设置</li>
       <li>
         <a href="/logout">退出</a>
@@ -14,7 +12,7 @@
 </template>
 <script>
 export default {
-  name: 'nav',
+  name: 'navContainer',
 
 }
 </script>

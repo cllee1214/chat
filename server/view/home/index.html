@@ -2,13 +2,13 @@
   <html>
     <head>
       <meta charset="UTF-8">
-      <title>欢迎你，<%=user%>!</title>
+      <title >欢迎你，<%=user%>!</title>
     </head>
     <body>
      <div id="app"></div>
-    <script type="text/javascript" src="bundle.js"></script>
-    <script>
-    
-    </script>
+     <script>
+       var USER = {user: '<%=user%>'};
+     </script>
+     <script src="/js/bundle.js"></script>
     </body>
   </html>

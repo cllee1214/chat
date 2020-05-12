@@ -8,7 +8,7 @@ module.exports = {
   entry: './src/App.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, './dist')
+    path: path.resolve(__dirname, './server/static/js')
   },
   devtool: 'cheap-module-eval-source-map',
   devServer: {
@@ -49,10 +49,10 @@ module.exports = {
   },
 
   plugins: [
-    new HtmlWebpackPlugin({
-      template: 'index.html'
-    }),
-    new CleanWebpackPlugin(['dist']),
+    // new HtmlWebpackPlugin({
+    //   template: 'index.html'
+    // }),
+    // new CleanWebpackPlugin(['./server/view/home']),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new VueLoaderPlugin()

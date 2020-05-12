@@ -1,11 +1,12 @@
 <template>
   <div id='container'>
+      <Nav></Nav>
       <router-view></router-view>
   </div>
 </template>
 
 <script>
-
+import Nav from './page/nav/index.vue'
 export default {
   name: 'app',
   data: function(){
@@ -14,7 +15,7 @@ export default {
     }
   },
   components: {
-   
+   Nav
   }
 }
 </script>
