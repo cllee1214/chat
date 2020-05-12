@@ -62,10 +62,13 @@ export default {
 
   },
   methods: {
-    openChat (id, user){
+    openChat (id, friend){
+      if(this.user == friend){
+        return
+      }
       this.isChatOpen = true
-      this.currentFirend = user
-      console.log(id, user)
+      this.currentFirend = friend
+      console.log(id, friend)
     },
     sendMsg() {
       let friend = this.currentFirend
@@ -85,6 +88,8 @@ export default {
       //发送到服务器中转
       socket.emit('msg', msgBody)
       console.log(this.message)
+      //清空输入框
+      this.message = ''
     }
   }
 }
