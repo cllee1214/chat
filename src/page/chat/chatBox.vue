@@ -1,6 +1,6 @@
 <template>
   <div id='chat'>
-    <FriendBox :userList='userList' @startChat="openChat"></FriendBox>
+    <FriendBox :userList='userList' :unread='unread' @startChat="openChat"></FriendBox>
     <div class='chating' v-if='isChatOpen'>
       <div class='title'>正在和{{currentFirend}}聊天</div>
       <div class="display-box">
@@ -32,7 +32,8 @@ export default {
       isChatOpen: false,
       currentFirend: '',
       msgStore: {},
-      message: ''
+      message: '',
+      unread: {}
     }
   },
   created () {
@@ -51,6 +52,10 @@ export default {
     })
     socket.on('msg', (data) => {
       console.log('recive:',data)
+
+      //处理未读消息
+      this.processUnread(data)
+
       let friend = data.from
       if(msgStore && !msgStore[friend]){
         this.$set(msgStore, friend, [])
@@ -62,11 +67,19 @@ export default {
 
   },
   methods: {
+    processUnread (reciveData) {
+      let friend = reciveData.from
+      if(friend != this.currentFirend){
+        var num = this.unread[friend] ? this.unread[friend] : 0
+        this.$set(this.unread, friend, ++num)
+      }
+    },
     openChat (id, friend){
       if(this.user == friend){
         return
       }
       this.isChatOpen = true
+      this.unread[friend] = 0
       this.currentFirend = friend
       console.log(id, friend)
     },

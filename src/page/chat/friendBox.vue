@@ -3,7 +3,7 @@
 
     <ul v-if='userList'>
       <li class='user-item' @click="clickUser(val, k)" v-for='(val,k) in userList'>
-        {{k}}
+        <span v-show="unread[k]">{{unread[k]}}</span>{{k}}
       </li>
     </ul>
     <div v-else>
@@ -14,9 +14,8 @@
 <script>
 export default {
   name:'chating-list',
-  props: ['userList'],
+  props: ['userList', 'unread'],
   created () {
-    console.log(111)
     console.log(this.userList)
   },
   methods: {
