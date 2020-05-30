@@ -1,12 +1,15 @@
 <template>
   <div id='chat'>
-    <FriendBox :userList='userList' :unread='unread' @startChat="openChat"></FriendBox>
+    <FriendBox :userList='userList' :unread='unread' :currentFriend='currentFirend' @startChat="openChat"></FriendBox>
     <div class='chating' v-if='isChatOpen'>
       <div class='title'>正在和{{currentFirend}}聊天</div>
       <div class="display-box">
         <ul>
           <li v-for='item in msgStore[currentFirend]' :class='[item.from == user ? "self-message" : "friend-message"]' class='message-item'>
-            {{item.message}}
+             <span class='avatar'></span>
+            <div class='message'>
+               {{item.message}}
+            </div>
           </li>
         </ul>
       </div>
@@ -63,6 +66,9 @@ export default {
       //更新为本地收到消息的时间
       data.time = new Date().getTime()
       msgStore[friend].push(data)
+      if(this.isChatOpen){
+         this.keepBottom()
+      }
     })
 
   },
@@ -79,6 +85,7 @@ export default {
         return
       }
       this.isChatOpen = true
+      this.keepBottom()
       this.unread[friend] = 0
       this.currentFirend = friend
       console.log(id, friend)
@@ -101,8 +108,15 @@ export default {
       //发送到服务器中转
       socket.emit('msg', msgBody)
       console.log(this.message)
+      this.keepBottom()
       //清空输入框
       this.message = ''
+    },
+    keepBottom () {
+      setTimeout(function(){
+        let displayBox = document.querySelector('.display-box')
+        displayBox.scrollTop = displayBox.scrollHeight
+      })
     }
   }
 }
@@ -110,19 +124,22 @@ export default {
 <style>
 #chat {
   width: 100%;
-  height: 470px;
+  height: 100%;
   display: flex;
+  background-color: rgba(243, 247, 248, 1);
 }
 .chating{
   display: flex;
   flex-direction: column;
-  flex:1
+  flex:1;
+  
 }
 .chating .title{
   width: 100%;
-  height: 40px;
-  line-height: 40px;
-  padding-left: 5px;
+  height: 60px;
+  line-height: 60px;
+  padding-left: 15px;
+  border-bottom: 1px solid #98A3AD;
 }
 .chating .display-box{
   height: 100%;
@@ -142,8 +159,13 @@ export default {
   resize: none;
   text-indent: 5px;
 }
+.display-box{
+  overflow-y: auto;
+}
 .message-item{
   width: 100%;
+  padding: 15px 0;
+  overflow: hidden;
 }
 .self-message{
   text-align: right;
@@ -151,4 +173,39 @@ export default {
 .friend-message{
   text-align: left;
 }
+.self-message .avatar{
+  width: 30px;
+  height: 30px;
+  border-radius: 20px;
+  background: gray;;
+  margin: 0px 10px 0 15px;
+  float: right;
+}
+.self-message .message{
+  float: right;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 10px;
+  padding: 0 10px;
+  color: #fff;
+  background-color: rgba(50, 213, 140, 1);
+}
+.friend-message .avatar{
+  width: 30px;
+  height: 30px;
+  border-radius: 20px;
+  background: gray;;
+  margin: 0px 10px 0 15px;
+  float: left;
+}
+.friend-message .message{
+  float: left;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 10px;
+  padding: 0 10px;
+  color: #aaa;
+  background-color: rgba(255, 255, 255, 1);
+}
+ 
 </style>
