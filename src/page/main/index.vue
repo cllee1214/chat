@@ -15,3 +15,8 @@ export default {
   }
 }
 </script>
+<style>
+#main{
+  flex: 1;
+}
+</style>

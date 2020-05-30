@@ -1,9 +1,15 @@
 <template>
   <div id='nav'>
     <ul>
-      <li>聊天</li>
-      <li>个人资料</li>
-      <li>设置</li>
+      <li>
+        <Icon type='message'></Icon>
+      </li>
+      <li>
+        <Icon type='user'></Icon>
+      </li>
+      <li>
+        <Icon type='setting'></Icon>
+      </li>
       <li>
         <a href="/logout">退出</a>
       </li>
@@ -11,21 +17,23 @@
   </div>
 </template>
 <script>
+import Icon from './icon.vue'
 export default {
   name: 'navContainer',
-
+  components: {
+    Icon
+  }
 }
 </script>
 
 <style>
 #nav{
-  width: 100%;
-  border-bottom:1px dashed cadetblue;
-  height: 30px;
+  width: 50px;
+  height: 100%;
+  background-color: rgba(47, 57, 66, 1);
 }
 #nav ul li{
   float: left;
-  padding: 0 15px;
   text-align: center;
   line-height: 30px;
   cursor: pointer;
