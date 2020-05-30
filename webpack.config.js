@@ -10,7 +10,7 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, './server/static/js')
   },
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'source-map',
   devServer: {
     contentBase: './dist',
     hot: true,
@@ -49,10 +49,10 @@ module.exports = {
   },
 
   plugins: [
-    // new HtmlWebpackPlugin({
-    //   template: 'index.html'
-    // }),
-    // new CleanWebpackPlugin(['./server/view/home']),
+    new HtmlWebpackPlugin({
+      template: 'index.html'
+    }),
+    new CleanWebpackPlugin(['./server/view/home']),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new VueLoaderPlugin()

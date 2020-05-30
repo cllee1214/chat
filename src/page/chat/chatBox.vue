@@ -37,7 +37,7 @@ export default {
     }
   },
   created () {
-    let user = USER.user
+    let user = 'xxx'
     this.user = user
     const socket =  SocketIO('http://127.0.0.1:8888/?user=' + user)
     this.socket = socket
@@ -89,7 +89,7 @@ export default {
       let msgBody = {
         message: this.message,
         time: new Date().getTime(),
-        from: USER.user,
+        from: 'xx',
         to: friend
       }
       const socket = this.socket
