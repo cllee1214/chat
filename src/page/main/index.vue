@@ -1,22 +1,42 @@
 <template>
-  <div id='main'>
-    <ChatBox></ChatBox>
+  <div id='chat-container'>
+    <Header></Header>
+    <router-view></router-view>
   </div>
 </template>
 <script>
-import ChatBox from '../chat/ChatBox.vue'
+
+import Header from '../header/index.vue'
+
 export default {
   name:'mainContainer',
+  data () {
+    return {
+      isChatOpen: false,
+    }
+  },
   components: {
-    ChatBox
+    Header
   },
   created () {
-    // console.log(window.USER)
+   
+  },
+  methods: {
+     handleClickBtn () {
+      let status = this.isShowGoBackBtn = !this.isShowGoBackBtn
+      title = status ? title : this.lastTitle
+      this.changeTitle(title)
+    }
   }
 }
 </script>
 <style>
-#main{
-  flex: 1;
+@import '../../assets/common.scss';
+#chat-container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
+
 </style>

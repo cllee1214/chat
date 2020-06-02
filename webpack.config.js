@@ -14,7 +14,10 @@ module.exports = {
   devServer: {
     contentBase: './dist',
     hot: true,
-    historyApiFallback: true
+    historyApiFallback: true,
+    proxy: {
+      '/': 'http://localhost:8888'
+    }
   },
   module: {
     rules: [
@@ -22,7 +25,8 @@ module.exports = {
       test: /\.css$/,
         use: [
           'style-loader',
-          'css-loader'
+          'css-loader',
+          'sass-loader'
         ]
       },
       {

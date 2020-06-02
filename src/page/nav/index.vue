@@ -1,45 +1,52 @@
 <template>
   <div id='nav'>
     <ul>
-      <li>
-        <Icon type='message'></Icon>
-      </li>
-      <li>
-        <Icon type='user'></Icon>
-      </li>
-      <li>
-        <Icon type='setting'></Icon>
-      </li>
-      <li>
-        <a href="/logout">退出</a>
+      <li :class='{"cur-selected": currentType == item.type}' v-for='item in list' :key="item.type"  @click='select(item.type, item.title, item.index)'>
+        <Icon :type='item.type'></Icon>
       </li>
     </ul>
   </div>
 </template>
 <script>
 import Icon from './icon.vue'
+import '../../assets/nav/index.scss'
+import Event from '../../eventBus.js'
 export default {
   name: 'navContainer',
+  data () {
+    return {
+      currentType: 'message',
+      list: [
+        {
+          type:'message',
+          title: '消息',
+          index: 0
+        },
+         {
+          type:'user',
+          title: '用户',
+           index: 1
+        },
+         {
+          type:'setting',
+          title: '设置',
+           index: 2
+        }
+      ]
+    }
+  },
   components: {
     Icon
+  },
+  methods: {
+    select (type, title, index) {
+      this.currentType = type
+      this.$emit('switchPage', index)
+      Event.$emit('switchHeader', title)
+    }
+  },
+  computed: {
+    
   }
 }
 </script>
-
-<style>
-#nav{
-  width: 50px;
-  height: 100%;
-  background-color: rgba(47, 57, 66, 1);
-}
-#nav ul li{
-  float: left;
-  text-align: center;
-  line-height: 30px;
-  cursor: pointer;
-}
-#nav ul li:hover{
-  background: cadetblue;
-   color: white;
-}
-</style>

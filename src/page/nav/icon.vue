@@ -19,7 +19,7 @@ export default {
             }
             return `#icon-icon-${typeMap[this.type]}`
         }
-    }
+    },
 }
 </script>
 <style>
@@ -27,7 +27,7 @@ export default {
     width: 20px;
     height: 20px;
     vertical-align: -0.15em;
-    fill: red;
+    fill: #ccc;
     overflow: hidden;
     font-size: 16px;
  }

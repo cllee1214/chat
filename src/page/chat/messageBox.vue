@@ -1,16 +1,17 @@
 <template>
-  <div id='frind-list'>
+  <div id='message-list'>
     <ul v-if='userList'>
-      <li class='user-item' :class='{cur:k == currentFriend}' @click="clickUser(val, k)" v-for='(val,k) in userList' :key="val">
+      <li class='user-item' :class='{cur:k == currentFriend}' @click="clickUser(val, k)" v-for='(val,k) in userList'>
+        <span class='unread' v-show="unread[k]">{{unread[k]}}</span>
         <span class='avatar'></span>
         <div class='info'>
           <div class='nickname'>{{k}}</div>
-          <div class='feeling'><span>[当前在线] </span>心情很糟糕</div>
+          <div class='last-msg'>最后一句话</div>
         </div>
       </li>
     </ul>
     <div v-else>
-      当前没人在线
+     当前无消息
     </div>
   </div>
 </template>
@@ -30,7 +31,7 @@ export default {
 </script>
 
 <style>
-#frind-list{
+#message-list{
   width: 100%;
   height: 100%;
   background: #fff;
@@ -38,29 +39,7 @@ export default {
     clear: both;
   }
 }
-.user-item{
-  height: 60px;
-  /* color: #ccc; */
-  width: 100%;
-  position: relative;
-}
-.avatar{
-  width: 35px;
-  height: 35px;
-  border-radius: 20px;
-  background: #ccc;;
-  margin: 15px 10px 0 15px;
-  float: left;
-}
-.info{
-  float: left;
-  margin-top: 10px;
-  width: calc(100% - 60px);
-}
-.nickname{
-  font-size: 18px;
-}
-.feeling{
+.last-msg{
   font-size: 12px;
   text-overflow:ellipsis;
   white-space:nowrap;
@@ -68,5 +47,15 @@ export default {
   color: #aaa;
   padding-right: 20px;
 }
-
+.unread{
+  border-radius: 50px;
+  width: 16px;
+  height: 16px;
+  text-align: center;
+  position: absolute;
+  right: 5px;
+  top:17px;
+  font-size: 12px;
+  background-color: rgba(50, 213, 140, 1) ;
+}
 </style>

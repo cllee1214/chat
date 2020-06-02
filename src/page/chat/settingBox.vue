@@ -1,0 +1,68 @@
+<template>
+ <div id='setting-list'>
+   <div class='setting-box'>
+      <ul>
+        <li>
+          <router-link :to="{path: 'info',query: {user: user}}">个人资料</router-link>
+        </li>
+        <li>进入朋友圈</li>
+        <li>夜间</li>
+        <li>天气</li>
+        <li></li>
+        <li>
+           <div @click='loginout' class="loginout">退出登录</div>
+        </li>
+      </ul>
+   </div>
+  
+ </div>
+</template>
+
+<script>
+import Store from '../../utils/store'
+export default {
+  name:'chatbox',
+  props: ['user'],
+  methods: {
+    loginout () {
+      console.log('推出')
+      Store.remove('chat')
+      this.$router.push('/login')
+      window.socket.disconnect()
+    }
+  }
+}
+</script>
+
+<style>
+@import '../../assets/common.scss';
+#setting-list{
+  width: 100%;
+  height: 100%;
+  background: #fff;
+}
+.setting-box{
+  width: 90%;
+  margin: auto;
+  ul{
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    overflow: hidden;
+    padding-top:10%;
+    li{
+      font-size: 16px;
+      border-left:1px solid #ccc;
+      border-top: 1px solid #ccc;
+      box-sizing: border-box;
+      width: 33.33%;
+      float: left;
+      height: px2rem(200);
+      line-height: px2rem(200);
+      text-align: center;
+      &:nth-child(3n){
+        border-right:1px solid #ccc;
+      }
+    }
+  }
+}
+</style>

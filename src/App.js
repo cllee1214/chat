@@ -1,17 +1,19 @@
 
 import Vue from 'vue'
+import Axios from 'axios'
 import App from './App.vue'
 
 import VueRouter from 'vue-router'
-import CV from './cv/components/'
-
-import './cv/styles/cv.scss'
 
 import routes from './router.js'
 
+import './assets/common.scss'
+
 Vue.config.devtools = true
+// Axios.defaults.baseURL = '/api'
+Vue.prototype.axios = Axios
 Vue.use(VueRouter)
-Vue.use(CV)
+
 
 const router = new VueRouter({
   routes
