@@ -5,7 +5,7 @@
         <MessageBox :userList='userList' :unread='unread' @startChat="startChat"></MessageBox>
       </div>
       <div  class='scroll-item'>
-        <FriendBox :userList='userList' :currentFriend='currentFirend' @startChat="startChat"></FriendBox>
+        <FriendBox :userList='userList' :currentFriend='currentFirend' :friendsInfo='friendsInfo' @startChat="startChat"></FriendBox>
       </div>
       <div  class='scroll-item'>
         <SettingBox :user='user'></SettingBox>
@@ -41,7 +41,7 @@ import Event from '../../eventBus.js'
 
 export default {
   name:'chatbox',
-  props: ['animate'],
+  props: ['animate', 'friendsInfo'],
   inject: ['socket','user'],
   components: {
     FriendBox,
@@ -64,7 +64,7 @@ export default {
   created () {
     const socket = this.socket
     let msgStore = this.msgStore
-
+    console.log('chatbox create!')
     socket.on('userList', (data) => {
       console.log(data)
       this.userList = data
@@ -145,6 +145,12 @@ export default {
 
     //    }
     // })
+  },
+  activated () {
+    console.log('ac')
+  },
+  deactivated () {
+    console.log('deac')
   },
   methods: {
     processUnread (reciveData) {

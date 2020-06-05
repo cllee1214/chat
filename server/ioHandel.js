@@ -89,10 +89,10 @@ var serverClient = io.on('connection', function (socket) {
     }else if(data.type == 'response'){
       if(data.option == 'shelve'){
         //搁置好友请求，暂时不处理
-        var updateData = {$push: {firends: {[data.to]: false}}}
+        var updateData = {$push: {friends: {[data.to]: false}}}
       }else if(data.option == 'agree'){
         //同意好友请求
-        var updateData = {$push: {firends: {[data.to]: true}}}
+        var updateData = {$push: {friends: {[data.to]: true}}}
         var cb = function () {
           socket.to(userList[data.to]).emit('addFriend',{
             from: data.from,

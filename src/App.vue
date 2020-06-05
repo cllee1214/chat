@@ -36,7 +36,7 @@ body, html{
 }
 body,html,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div{margin:0;padding:0;border:0;} 
 ul,ol{list-style-type:none;} 
-select,input,img,select{vertical-align:middle;} 
+/* select,input,img,select{vertical-align:middle;}  */
 a{text-decoration:none;} 
 a:link{color:#009;} 
 a:visited{color:#800080;} 

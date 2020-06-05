@@ -4,7 +4,9 @@
     <Modal v-model='isOpenModal' :okText='btnsText.ok' :cancelText='btnsText.cancel' @ok='okFn' @cancel='cancleFn'>
      {{addFriendContent}}
     </Modal>
-    <router-view></router-view>
+    <keep-alive >
+      <router-view include="chatbox"></router-view>
+    </keep-alive>
   </div>
 </template>
 <script>
@@ -39,25 +41,28 @@ export default {
     Header
   },
   created () {
-    const socket = this.socket
-    socket.on('addFriend', (data) => {
-      console.log(data)
-      if(data.option){
-        //收到好友请求回复
-        this.btnsText.cancel = ''
-      }else{
-        //收到好友请求
-        this.btnsText.cancel = '暂时忽略'
-      }
-      this.btnsText.ok = '确定'
-      this.option = data.option
-      this.messageFrom = data.from
-      this.addFriendContent = data.message
-      this.isOpenModal = true
-    })
+   this.handleAddFriend()
   },
   methods: {
-     handleClickBtn () {
+    handleAddFriend (){
+      const socket = this.socket
+      socket.on('addFriend', (data) => {
+        console.log(data)
+        if(data.option){
+          //收到好友请求回复
+          this.btnsText.cancel = ''
+        }else{
+          //收到好友请求
+          this.btnsText.cancel = '暂时忽略'
+        }
+        this.btnsText.ok = '确定'
+        this.option = data.option
+        this.messageFrom = data.from
+        this.addFriendContent = data.message
+        this.isOpenModal = true
+      })
+    }, 
+    handleClickBtn () {
       let status = this.isShowGoBackBtn = !this.isShowGoBackBtn
       title = status ? title : this.lastTitle
       this.changeTitle(title)

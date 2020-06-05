@@ -179,13 +179,60 @@ router.get('/info/user/:user/', function(req,res){
   })
 })
 
-router.post('/addFriend', function(req, res){
-  var friend = req.body.friend
-  var user = req.body.user
-  
+router.get('/pullFriends/user/:user', function(req, res){
+  var user = req.params.user
   MongoClient.connect(url, function(e, client) {
     var db = client.db('chat')
+    db.collection('user').findOne({user: user}, function(e, doc) {
+        if(e){
+          res.json({
+            code: '0',
+            msg: '拉取失败'
+          })
+        }else{
+          if(doc){
+            console.log(doc)
+            res.json({
+              code: '1',
+              msg: '拉取成功',
+              data: doc.friends
+            })
+          }else{
+            res.json({
+              code: '0',
+              msg: user + '不存在'
+            })
+          }
+        }
+    })
   })
 })
+router.get('/pullAllUser', function(req, res){
+  MongoClient.connect(url, function(e, client) {
+    var db = client.db('chat')
+    db.collection('user').find({}).toArray().then(function(result){
+      var data = result.map(function(item){
+        return {
+          user: item.user,
+          nickname: item.nickname,
+          avatar: item.avatar,
+          declaration: item.declaration
+        }
+      })
+      res.json({
+        code: '1',
+        data: data,
+        msg: '拉取成功'
+      })
+    }).catch(function(err){
+      console.log(err)
+      res.json({
+        code: '0',
+        msg:'拉取失败'
+      })
+    })
+  })
+})
+
 
 module.exports = router;
