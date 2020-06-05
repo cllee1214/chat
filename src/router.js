@@ -3,6 +3,7 @@ import Login from './page/login/index.vue'
 import Regist from './page/regist/index.vue'
 import Info from './page/chat/personalInfo.vue'
 import Chat from './page/chat/index.vue'
+import AddFriend from './page/addFriend/index.vue'
 
 const router = [
   {
@@ -16,6 +17,10 @@ const router = [
       {
         path: '/info',
         component: Info
+      },
+      {
+        path: '/addFriend',
+        component: AddFriend
       }
     ]
   },

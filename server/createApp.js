@@ -10,7 +10,7 @@ app.enabled('etag')
 app.use(bodyParser.urlencoded({
     extended:true
 }));
-app.use(bodyParser.json({ type: 'application/*+json' }));
+app.use(bodyParser.json());
 
 app.set('views', path.join(__dirname, 'view'));
 app.engine('html', ejs.__express)

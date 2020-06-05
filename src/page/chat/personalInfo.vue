@@ -100,7 +100,7 @@ export default {
 }
 </script>  
 
-<style>
+<style lang='scss'>
 @import '../../assets/common.scss';
     .set-info{
         width: 100%;

@@ -42,6 +42,7 @@ import Event from '../../eventBus.js'
 export default {
   name:'chatbox',
   props: ['animate'],
+  inject: ['socket','user'],
   components: {
     FriendBox,
     MessageBox,
@@ -49,9 +50,7 @@ export default {
   },
   data () {
     return {
-      user: '',
       userList: null,
-      socket: null,
       currentFirend: '',
       msgStore: {},
       message: '',
@@ -59,12 +58,11 @@ export default {
       isChatOpen: false
     }
   },
+  computed: {
+    
+  },
   created () {
-    let user = this.user = Store.get('chat').user
-    const socket =  SocketIO('http://127.0.0.1:8888/?user=' + user)
-    window.socket = socket
-    console.log(socket)
-    this.socket = socket
+    const socket = this.socket
     let msgStore = this.msgStore
 
     socket.on('userList', (data) => {
@@ -195,7 +193,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang='scss'>
 @import '../../assets/common.scss';
 #chat {
   width: 100%;

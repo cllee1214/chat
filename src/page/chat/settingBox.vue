@@ -8,7 +8,9 @@
         <li>进入朋友圈</li>
         <li>夜间</li>
         <li>天气</li>
-        <li></li>
+        <li>
+           <router-link :to="{path: 'addFriend'}">添加好友</router-link>
+        </li>
         <li>
            <div @click='loginout' class="loginout">退出登录</div>
         </li>
@@ -22,10 +24,10 @@
 import Store from '../../utils/store'
 export default {
   name:'chatbox',
-  props: ['user'],
+  inject: ['user'],
   methods: {
     loginout () {
-      console.log('推出')
+      console.log('退出')
       Store.remove('chat')
       this.$router.push('/login')
       window.socket.disconnect()

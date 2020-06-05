@@ -8,7 +8,6 @@
 import Nav from '../nav/index.vue'
 import ChatBox from './ChatBox.vue'
 import Store from '../../utils/store'
-
 export default {
   name:'mainContainer',
   data () {
@@ -47,11 +46,11 @@ export default {
     }
   },
    beforeRouteEnter(to, from, next) {
-     console.log(1111111)
     if(Store.get('chat')){
       next()
     }else{
-      next(false)
+      console.log('没有登录，跳转到注册页')
+      next('/regist')
     }
   }
 }

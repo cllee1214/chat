@@ -6,6 +6,7 @@
 
 <script>
 import Header from './page/header/index.vue'
+import Store from './utils/store.js'
 export default {
   name: 'app',
   data: function(){

@@ -11,6 +11,9 @@
         <input type="password" placeholder="请再次输入密码" name='repwd' v-model="repwd">
     </div>
     <div class='login-btn' @click="submit">注册</div>
+    <div class="router-login">
+      已经有账号了？去<router-link to="/login"> 登录</router-link>
+    </div>
   </div>
 </template>
 

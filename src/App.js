@@ -5,16 +5,19 @@ import App from './App.vue'
 
 import VueRouter from 'vue-router'
 
+import MyComponents from './components/index.js'
+
 import routes from './router.js'
 
 import './assets/common.scss'
 
 Vue.config.devtools = true
 // Axios.defaults.baseURL = '/api'
-Vue.prototype.axios = Axios
+
 Vue.use(VueRouter)
-
-
+Vue.use(MyComponents, {
+  requst: Axios
+})
 const router = new VueRouter({
   routes
 })

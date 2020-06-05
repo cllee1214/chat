@@ -16,9 +16,9 @@ router.get('/', function(req, res){
 })
 
 router.post('/login', function(req, res){
-  var user = req.body.user;
+  console.log('user', req.body.user)
+  var user = req.body.user
   var pwd = req.body.pwd
-
   MongoClient.connect(url, function(e, client){
     var db = client.db('chat')
     db.collection('user').findOne({user: user},function(e, doc) {
@@ -164,11 +164,27 @@ router.get('/info/user/:user/', function(req,res){
             msg: '获取'+ user + '资料失败'
           })
         }else{
-          doc.code = '1'
-          doc.msg = '获取成功'
-          res.json(doc)
+          if(doc){
+            doc.code = '1'
+            doc.msg = '获取成功'
+            res.json(doc)
+          }else{
+            res.json({
+              code: '0',
+              msg: user + '不存在'
+            })
+          }
         }
     })
+  })
+})
+
+router.post('/addFriend', function(req, res){
+  var friend = req.body.friend
+  var user = req.body.user
+  
+  MongoClient.connect(url, function(e, client) {
+    var db = client.db('chat')
   })
 })
 
