@@ -1,7 +1,7 @@
 <template>
 	<div id='add-friend'>
-		<div class='seach-box'>
-			<input type="输入好友Id" v-model="friend">
+		<!-- <div class='seach-box'>
+			<input placeholder="输入好友Id" v-model="friend">
 			<div class='seach' @click='searchFriend'>搜索</div>
 		</div>
 		<div v-if='showResult' class='friend-result'>
@@ -14,7 +14,8 @@
 				<template v-else>
 						{{friend}}不存在，请重试
 				</template>
-			</div>
+			</div> -->
+			<SearchBox :showResult='showResult' :searchResult='friendInfo' placeholder='请输入好友id' @search='searchFriend' @add='addFriend'></SearchBox>
 	</div>
 </template>
 
@@ -27,7 +28,10 @@ export default {
 		return {
 			showResult: false,
 			friend: '',
-			friendInfo: {}
+			friendInfo: {
+				nickname: '',
+				declaration: ''
+			}
 		};
 	},
 	inject: ['socket','user'],
@@ -39,8 +43,8 @@ export default {
 		 
 	},
 	methods: {
-		searchFriend () {
-			this.axios.get(`/info/user/${this.friend}`).then((res) => {
+		searchFriend (friendId) {
+			this.axios.get(`/info/user/${friendId}`).then((res) => {
 					let data = res.data
 					if(data.code === '1'){
 							this.showSearchResult(data)
@@ -55,19 +59,19 @@ export default {
 		},
 		showSearchResult (data) {
 			if(data){
-				for(let k in data){
-						this.$set(this.friendInfo, k, data[k])
-				}
-				this.friendInfo = data
+				let keys = Object.keys(JSON.parse(JSON.stringify(this.friendInfo)))
+				keys.forEach(key => {
+					this.friendInfo[key] = data[key]
+				})
 			}
 			this.showResult = !!data		
 			console.log(data)
 		},
-		addFriend (){
+		addFriend (friend){
 			const socket = this.socket
 			socket.emit('addFriend', {
 				from: this.user,
-				to: this.friend,
+				to: friend,
 				type: 'requst'
 			})
 		}
