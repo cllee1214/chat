@@ -1,7 +1,6 @@
-# 一个聊天app demo（react + react-router + express + socket.io + webapck4.x）
 
 
-## 途中遇到的相关问题：
+### 途中遇到的相关问题：
 
  - 1.引入ant之后打包文件体积过大,使用babel-plugin-import
 
