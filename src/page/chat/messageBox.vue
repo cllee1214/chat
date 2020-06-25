@@ -1,7 +1,7 @@
 <template>
   <div id='message-list'>
     <ul v-if='userList'>
-      <li class='user-item' :class='{cur:k == currentFriend}' @click="clickUser(val, k)" v-for='(val,k) in userList'>
+      <li class='user-item' :class='{cur:k == currentFriend}' @click="clickUser(val, k)" v-for='(val,k) in userList' :key="k">
         <span class='unread' v-show="unread[k]">{{unread[k]}}</span>
         <span class='avatar'></span>
         <div class='info'>

@@ -35,7 +35,6 @@ export default {
             declaration: '',
             avatarPath: '',
             avatar: null,
-
             title: '个人资料设置'
         }
     },

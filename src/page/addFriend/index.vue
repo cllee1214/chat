@@ -1,20 +1,5 @@
 <template>
 	<div id='add-friend'>
-		<!-- <div class='seach-box'>
-			<input placeholder="输入好友Id" v-model="friend">
-			<div class='seach' @click='searchFriend'>搜索</div>
-		</div>
-		<div v-if='showResult' class='friend-result'>
-				<template v-if="friendInfo">
-					<div class='avatar-box'></div>
-					<div class='name'>{{friendInfo.nickname}}({{friend}})</div>
-					<div v-if='friendInfo.declaration' class='declaration'>“{{friendInfo.declaration}}”</div>
-					<div class='add-friend-requst' @click="addFriend">好友申请</div>
-				</template>
-				<template v-else>
-						{{friend}}不存在，请重试
-				</template>
-			</div> -->
 			<SearchBox :showResult='showResult' :searchResult='friendInfo' placeholder='请输入好友id' @search='searchFriend' @add='addFriend'></SearchBox>
 	</div>
 </template>
@@ -30,7 +15,8 @@ export default {
 			friend: '',
 			friendInfo: {
 				nickname: '',
-				declaration: ''
+				declaration: '',
+				status: false
 			}
 		};
 	},
@@ -53,19 +39,22 @@ export default {
 					}
 				
       }).catch((err) => {
-				this.showSearchResult(null)
+				this.showResult = false
 				console.log(err)
 			})
 		},
 		showSearchResult (data) {
+			console.log(data)
 			if(data){
 				let keys = Object.keys(JSON.parse(JSON.stringify(this.friendInfo)))
 				keys.forEach(key => {
 					this.friendInfo[key] = data[key]
 				})
+				this.friendInfo.status = true
+			}else{
+				this.friendInfo.status = false
 			}
-			this.showResult = !!data		
-			console.log(data)
+			this.showResult = true
 		},
 		addFriend (friend){
 			const socket = this.socket

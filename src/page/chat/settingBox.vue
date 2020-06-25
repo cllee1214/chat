@@ -7,7 +7,9 @@
         </li>
         <li>进入朋友圈</li>
         <li>夜间</li>
-        <li>加入群聊</li>
+        <li>
+           <router-link :to="{path: 'group',query: {user: user}}">加入群聊</router-link>
+        </li>
         <li>
            <router-link :to="{path: 'addFriend'}">添加好友</router-link>
         </li>

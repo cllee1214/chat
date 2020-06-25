@@ -4,6 +4,8 @@ import Regist from './page/regist/index.vue'
 import Info from './page/chat/personalInfo.vue'
 import Chat from './page/chat/index.vue'
 import AddFriend from './page/addFriend/index.vue'
+import Group from './page/group/index.vue'
+import createGroup from './page/group/createGroup.vue'
 
 const router = [
   {
@@ -21,6 +23,14 @@ const router = [
       {
         path: '/addFriend',
         component: AddFriend
+      },
+      {
+        path: '/group',
+        component: Group
+      },
+      {
+        path: '/createGroup',
+        component: createGroup
       }
     ]
   },

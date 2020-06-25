@@ -2,7 +2,8 @@ var server = require('./createServer')
 var io = require("socket.io")(server);
 
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/chat";
+var dbLoctaion = 'nas'
+var url = dbLoctaion ? "mongodb://192.168.1.111:27017/chat" : "mongodb://localhost:27017/chat";
 
 var userList = {}
 
@@ -66,6 +67,10 @@ var serverClient = io.on('connection', function (socket) {
   var insertFirendFactory = function (updateWhere, updateData) {
    return new Promise(function(resolve, reject){
       MongoClient.connect(url, function(e, client) {
+        if(e){
+          console.log('xx')
+          console.log(e)
+        }
         var db = client.db('chat')
         db.collection('user').update(updateWhere, updateData, function(e, r) {
           if(e){
@@ -103,7 +108,7 @@ var serverClient = io.on('connection', function (socket) {
       }
       //相互把对方的id添加到自己的文档中去，所以有两个promise
       var friendAgreeMePromise = insertFirendFactory({user: data.from}, updateData)
-      var addFriendToDocPromise = insertFirendFactory({user: data.to}, {$push: {firends: {[data.from]: true}}})
+      var addFriendToDocPromise = insertFirendFactory({user: data.to}, {$push: {friends: {[data.from]: true}}})
       var p = Promise.all([friendAgreeMePromise, addFriendToDocPromise])
       p.then(function(){
         cb && cb()
