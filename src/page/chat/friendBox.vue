@@ -1,16 +1,31 @@
 <template>
   <div id='frind-list'>
-    <ul v-if='friendsInfo'>
-      <li class='user-item' @click="clickUser(friend.user)" v-for='friend  in friendsInfo' :key="friend.user">
-        <span class='avatar'>
-          <img :src="friend.avatar | renderImgPath" alt="">
-        </span>
-        <div class='info'>
-          <div class='nickname'>{{friend.nickname}}</div>
-          <div class='feeling'><span>[当前在线] </span>{{friend.declaration}}</div>
-        </div>
-      </li>
-    </ul>
+    <template v-if='friendsInfo'>
+      <div class="roll">我的好友</div>
+      <ul class="friend">
+        <li class='user-item' @click="clickUser(friend.user)" v-for='friend  in friendsInfo' :key="friend.user">
+          <span class='avatar'>
+            <img :src="friend.avatar | renderImgPath" alt="">
+          </span>
+          <div class='info'>
+            <div class='nickname'>{{friend.nickname}}</div>
+            <div class='feeling'><span>[当前在线] </span>{{friend.declaration}}</div>
+          </div>
+        </li>
+      </ul>
+      <div class="roll">我的群</div>
+      <ul class="group">
+        <li class="user-item" v-for="group in groupsInfoList" :key='group.id'>
+          <span class='avatar'>
+
+          </span>
+          <div class="info">
+            <div class="nickname">{{group.name}}</div>
+            <div class='feeling'></div>
+          </div>
+        </li>
+      </ul>
+    </template>
     <div v-else>
       暂无好友
     </div>
@@ -21,7 +36,7 @@ import avatarFilter from '../../mixins/avatarFilter.js'
 
 export default {
   name:'friends-list',
-  props: ['userList', 'unread', 'currentFriend', 'friendsInfo'],
+  props: ['userList', 'unread', 'currentFriend', 'friendsInfo', 'groupsInfoList'],
   mixins:[avatarFilter],
   created () {
     console.log(this.userList)
@@ -79,6 +94,11 @@ export default {
   overflow:hidden;
   color: #aaa;
   padding-right: 20px;
+}
+.roll{
+  font-size: 16px;
+  text-indent: 10px;
+  background-color:  rgba(74, 89, 107, 1);
 }
 
 </style>

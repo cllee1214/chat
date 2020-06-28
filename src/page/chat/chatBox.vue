@@ -5,7 +5,7 @@
         <MessageBox :userList='userList' :unread='unread' @startChat="startChat"></MessageBox>
       </div>
       <div  class='scroll-item'>
-        <FriendBox :userList='userList' :currentFriend='currentFirend' :friendsInfo='friendsInfo' @startChat="startChat"></FriendBox>
+        <FriendBox :userList='userList' :currentFriend='currentFirend' :groupsInfoList='groupsInfoList' :friendsInfo='friendsInfo' @startChat="startChat"></FriendBox>
       </div>
       <div  class='scroll-item'>
         <SettingBox :user='user'></SettingBox>
@@ -41,7 +41,7 @@ import Event from '../../eventBus.js'
 
 export default {
   name:'chatbox',
-  props: ['animate', 'friendsInfo'],
+  props: ['animate', 'friendsInfo','groupsInfoList'],
   inject: ['socket','user'],
   components: {
     FriendBox,

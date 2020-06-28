@@ -345,5 +345,16 @@ router.post('/addGroup/id/:id/user/:user', function(req, res) {
   })
 })
 
-
+router.get('/getAllGroups', function(req, res){
+  MongoClient.connect(url, function (e, client) {
+    var db = client.db('chat')
+    db.collection('group').find({}).toArray().then(function(result){
+      console.log(result)
+      res.json({
+        code: '1',
+        groups: result
+      })
+    })
+  })
+})
 module.exports = router;
