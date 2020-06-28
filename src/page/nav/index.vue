@@ -9,10 +9,11 @@
 </template>
 <script>
 import Icon from './icon.vue'
+import changeTitleMixin from '../../mixins/changeHeaderTitle.js'
 import '../../assets/nav/index.scss'
-import Event from '../../eventBus.js'
 export default {
   name: 'navContainer',
+  mixins: [changeTitleMixin.mixinInMethod],
   data () {
     return {
       currentType: 'message',
@@ -25,12 +26,12 @@ export default {
          {
           type:'user',
           title: '用户',
-           index: 1
+          index: 1
         },
          {
           type:'setting',
           title: '设置',
-           index: 2
+          index: 2
         }
       ]
     }
@@ -40,9 +41,9 @@ export default {
   },
   methods: {
     select (type, title, index) {
+      this.changeHeaderTitle(title)
       this.currentType = type
       this.$emit('switchPage', index)
-      Event.$emit('switchHeader', title)
     }
   },
   computed: {

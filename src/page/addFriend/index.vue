@@ -5,12 +5,14 @@
 </template>
 
 <script>
-
+import changeTitleMixin from '../../mixins/changeHeaderTitle.js'
 export default {
 	name: 'addFriend',
 	components: {},
+	mixins: [changeTitleMixin.mixinInMounted],
 	data() {
 		return {
+			title: '添加好友',
 			showResult: false,
 			friend: '',
 			friendInfo: {

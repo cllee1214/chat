@@ -8,13 +8,15 @@
 </template>
 
 <script>
-
+import changeTitleMixin from '../../mixins/changeHeaderTitle.js'
 export default {
   name: 'group',
   components: {},
   inject: ['user'],
+  mixins: [changeTitleMixin.mixinInMounted],
   data() {
     return {
+      title: '加入群聊',
       showResult: false,
       groupInfo: {
         name: '',

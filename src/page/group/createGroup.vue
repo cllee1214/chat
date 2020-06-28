@@ -8,12 +8,14 @@
 </template>
 
 <script>
-
+import changeTitleMixin from '../../mixins/changeHeaderTitle.js'
 export default {
   name: 'add-group',
   components: {},
+  mixins: [changeTitleMixin.mixinInMounted],
   data() {
     return {
+      title: '新建群聊',
       name: '',
       location: '',
       validate: false
@@ -35,8 +37,10 @@ export default {
       })
     }
   },
+  mounted() {
+  },
   created() {
-
+   
   },
 }
 </script>

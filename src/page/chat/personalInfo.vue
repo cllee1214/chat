@@ -23,8 +23,10 @@
 
 <script>
 import Header from '../header/index.vue'
+import changeTitleMixin from '../../mixins/changeHeaderTitle.js'
 export default {
     name: 'info',
+    mixins: [changeTitleMixin.mixinInMounted],
     components:{
         Header
     },

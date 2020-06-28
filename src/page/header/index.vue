@@ -7,27 +7,21 @@
 </template>
 
 <script>
-import Event from '../../eventBus.js'
+import { mapState } from 'vuex'
 export default {
     name: 'headerTitle',
     data () {
-        return {
-            isShowGoBackBtn: false,
-            title: '消息',
-            lastTitle: '',
-        }
+        return {}
     },
-    created () {
-        Event.$on('switchHeader', (title, showStatus=false) => {
-            this.lastTitle = this.title
-            this.title = title
-            this.isShowGoBackBtn = showStatus
-        })
-    },
+    created () {},
+    computed: mapState({
+        isShowGoBackBtn: 'isShowGoBackBtn',
+        title: 'title'
+    }),
     methods: {
         handleClick () {
-           this.isShowGoBackBtn = false
-           Event.$emit('closeChat')
+            this.$store.commit('hideBackBtn')
+        //    Event.$emit('closeChat')
         }
     }
 }

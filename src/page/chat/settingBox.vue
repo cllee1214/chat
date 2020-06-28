@@ -38,7 +38,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang='scss'>
 @import '../../assets/common.scss';
 #setting-list{
   width: 100%;

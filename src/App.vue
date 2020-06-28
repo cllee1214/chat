@@ -14,6 +14,10 @@ export default {
      
     }
   },
+  created() {
+    console.log('=========')
+    console.log(this.$store)
+  },
   components: {
     Header
   },

@@ -99,6 +99,8 @@ export default {
   font-size: 16px;
   text-indent: 10px;
   background-color:  rgba(74, 89, 107, 1);
+  padding: 10px 0;
+  color: #ccc;
 }
 
 </style>
