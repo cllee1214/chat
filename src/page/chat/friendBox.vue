@@ -33,13 +33,21 @@
 </template>
 <script>
 import avatarFilter from '../../mixins/avatarFilter.js'
+import { mapState } from 'vuex'
 
 export default {
   name:'friends-list',
-  props: ['userList', 'unread', 'currentFriend', 'friendsInfo', 'groupsInfoList'],
+  props: ['unread'],
   mixins:[avatarFilter],
   created () {
     console.log(this.userList)
+  },
+  computed: {
+    ...mapState([
+      'userList',
+      'friendsInfo',
+      'groupsInfoList'
+    ])
   },
   methods: {
     clickUser (user) {

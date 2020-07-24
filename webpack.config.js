@@ -33,9 +33,21 @@ module.exports = {
         test: /\.js$/, 
         loader: 'babel-loader'
       },
+      // {
+      //   test: /\.vue$/, 
+      //   loader: 'vue-loader'
+      // },
       {
         test: /\.vue$/, 
-        loader: 'vue-loader'
+        use: [
+          {
+            loader: path.resolve('./loaders/traditional-simple-loader.js'),
+
+          },
+          {
+            loader: 'vue-loader'
+          }
+        ]
       },
       {
         test: /\.scss/,

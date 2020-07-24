@@ -2,12 +2,10 @@
 
 <div id='main'>
   <ChatBox :animate='animate' :friendsInfo='friendsInfo' :groupsInfoList='groupsInfoList'></ChatBox>
-  <Nav @switchPage='switchPage' ref="nav"></Nav>
 </div>
 
 </template>
 <script>
-import Nav from '../nav/index.vue'
 import ChatBox from './ChatBox.vue'
 import Store from '../../utils/store'
 export default {
@@ -26,7 +24,6 @@ export default {
   },
   components: {
     ChatBox,
-    Nav
   },
   created () {
     this.updatePosition()

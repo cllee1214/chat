@@ -1,5 +1,6 @@
 <template>
   <div id='group-chat'>
+    <Header title="加入群聊"></Header>
     <SearchBox :showResult='showResult' :searchResult='groupInfo' placeholder='请输入群id' type='group' @search='searchGroup' @add='addGroup'></SearchBox>
     <div class='guide'>
       <router-link to='/createGroup' >或者自己建一个群聊？</router-link>
@@ -8,12 +9,11 @@
 </template>
 
 <script>
-import changeTitleMixin from '../../mixins/changeHeaderTitle.js'
+
 export default {
   name: 'group',
   components: {},
   inject: ['user'],
-  mixins: [changeTitleMixin.mixinInMounted],
   data() {
     return {
       title: '加入群聊',

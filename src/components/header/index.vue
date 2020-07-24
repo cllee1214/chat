@@ -7,21 +7,21 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 export default {
-    name: 'headerTitle',
+    name: 'top-header',
+    props:['title'],
     data () {
         return {}
     },
     created () {},
-    computed: mapState({
-        isShowGoBackBtn: 'isShowGoBackBtn',
-        title: 'title'
-    }),
+    computed: {
+      isShowGoBackBtn: function() {
+          return this.title != '主页'
+      }
+    },
     methods: {
         handleClick () {
-            this.$store.commit('hideBackBtn')
-        //    Event.$emit('closeChat')
+            this.$router.go(-1)
         }
     }
 }

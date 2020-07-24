@@ -1,9 +1,11 @@
 import Modal from './modal/index.vue'
 import SearchBox from './search/index.vue'
+import Header from './header/index.vue'
 
 const ComponentsMap = {
   Modal,
-  SearchBox
+  SearchBox,
+  Header
 }
 let MyComponents = {
   install: function(Vue, options) {

@@ -64,28 +64,28 @@ export default {
   created () {
     const socket = this.socket
     let msgStore = this.msgStore
-    console.log('chatbox create!')
-    socket.on('userList', (data) => {
-      console.log(data)
-      this.userList = data
-    })
-    socket.on('sys', function(data){
-      console.log(data)
-    })
-    socket.on('msg', (data) => {
-      console.log('recive:',data)
 
-      //处理未读消息
-      this.processUnread(data)
+    // socket.on('userList', (data) => {
+    //   console.log(data)
+    //   this.userList = data
+    // })
+    // socket.on('sys', function(data){
+    //   console.log(data)
+    // })
+    // socket.on('msg', (data) => {
+    //   console.log('recive:',data)
 
-      let friend = data.from
-      if(msgStore && !msgStore[friend]){
-        this.$set(msgStore, friend, [])
-      }
-      //更新为本地收到消息的时间
-      data.time = new Date().getTime()
-      msgStore[friend].push(data)
-    })
+    //   //处理未读消息
+    //   this.processUnread(data)
+
+    //   let friend = data.from
+    //   if(msgStore && !msgStore[friend]){
+    //     this.$set(msgStore, friend, [])
+    //   }
+    //   //更新为本地收到消息的时间
+    //   data.time = new Date().getTime()
+    //   msgStore[friend].push(data)
+    // })
 
     this.listenEvent()
   },
@@ -112,39 +112,6 @@ export default {
         // }, time)
       }
     }
-
-    // function scrollFn(e) {
-    //    let touch = e.touches[0]
-    //    console.log(touch.pageX)
-    //    let originX = parseFloat(scrollBox.style.left)
-    //    endX = touch.pageX
-    //    backoffset = (endX - startX) 
-    //    if(originX + backoffset > 0){
-    //       scrollBox.style.left = '0px'
-    //       return
-    //    }
-    //     if(originX + backoffset < -640){
-    //       scrollBox.style.left = '-640px'
-    //       return
-    //    }
-       
-    //    scrollBox.style.left = (originX + backoffset) + 'px'
-    // }
-
-    // document.addEventListener('touchstart', e => {
-    //    let touch = e.touches[0]
-    //    startX = touch.pageX
-    // })
-    // document.addEventListener('touchmove', scrollFn)
-    // document.addEventListener('touchend', e => {
-    //    let moveX = endX - startX
-    //    if(moveX == 0)return
-    //    if(Math.abs(moveX) >= scrollCondition){
-    //      this.$emit('changeTitle', moveX > 0 ? -1 : 1, true)
-    //    }else{
-
-    //    }
-    // })
   },
   activated () {
     console.log('ac')

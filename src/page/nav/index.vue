@@ -1,7 +1,7 @@
 <template>
   <div id='nav'>
     <ul>
-      <li :class='{"cur-selected": currentType == item.type}' v-for='item in list' :key="item.type"  @click='select(item.type, item.title, item.index)'>
+      <li :class='{"cur-selected": currentType == item.type}' v-for='item in list' :key="item.url"  @click='select(item.url, item.type)'>
         <Icon :type='item.type'></Icon>
       </li>
     </ul>
@@ -9,29 +9,27 @@
 </template>
 <script>
 import Icon from './icon.vue'
-import changeTitleMixin from '../../mixins/changeHeaderTitle.js'
 import '../../assets/nav/index.scss'
 export default {
   name: 'navContainer',
-  mixins: [changeTitleMixin.mixinInMethod],
   data () {
     return {
       currentType: 'message',
       list: [
         {
-          type:'message',
+          type: 'message',
+          url: '/',
           title: '消息',
-          index: 0
         },
          {
-          type:'user',
+          type: 'user',
+          url: '/friends',
           title: '用户',
-          index: 1
         },
          {
-          type:'setting',
+          type: 'setting',
+          url: '/settings',
           title: '设置',
-          index: 2
         }
       ]
     }
@@ -40,10 +38,9 @@ export default {
     Icon
   },
   methods: {
-    select (type, title, index) {
-      this.changeHeaderTitle(title)
+    select (url, type) {
       this.currentType = type
-      this.$emit('switchPage', index)
+      this.$router.push(url)
     }
   },
   computed: {

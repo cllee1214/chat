@@ -1,4 +1,3 @@
-
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Axios from 'axios'
@@ -8,6 +7,8 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 
 import MyComponents from './components/index.js'
+
+import MyDirective from './directive/index.js'
 
 import routes from './router.js'
 import storeData from './store.js'
@@ -22,6 +23,8 @@ Vue.use(Vuex)
 Vue.use(MyComponents, {
   requst: Axios
 })
+
+Vue.use(MyDirective)
 
 const router = new VueRouter({
   routes

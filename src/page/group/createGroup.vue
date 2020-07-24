@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Header title="新建一个群聊"></Header>
     <input v-model="name" type="text" placeholder="群名称">
     <input v-model="location" type="text" placeholder="群地点">
     加群验证：<input v-model='validate' type="checkbox">
@@ -8,11 +9,9 @@
 </template>
 
 <script>
-import changeTitleMixin from '../../mixins/changeHeaderTitle.js'
 export default {
   name: 'add-group',
   components: {},
-  mixins: [changeTitleMixin.mixinInMounted],
   data() {
     return {
       title: '新建群聊',

@@ -1,6 +1,6 @@
 <template>
  <div id='set-info' class='set-info'>
-     <!-- <Header :isShowGoBackBtn="isChatOpen" :title="title" @eventClickGoBack=''></Header> -->
+     <Header title="个人信息设置"></Header>
      <div class='set-avatar' :style="{'background-image': `url(${renderImgPath})`}">
         <div class='avatar-mask'></div> 
         <div class='cur-avatar' @click='handleClick' >
@@ -22,14 +22,9 @@
 
 
 <script>
-import Header from '../header/index.vue'
-import changeTitleMixin from '../../mixins/changeHeaderTitle.js'
+
 export default {
     name: 'info',
-    mixins: [changeTitleMixin.mixinInMounted],
-    components:{
-        Header
-    },
     data () {
         return {
             user: '',

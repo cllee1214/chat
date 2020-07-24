@@ -1,15 +1,16 @@
 <template>
 	<div id='add-friend'>
+			<Header title="添加好友"></Header>
 			<SearchBox :showResult='showResult' :searchResult='friendInfo' placeholder='请输入好友id' @search='searchFriend' @add='addFriend'></SearchBox>
 	</div>
 </template>
 
 <script>
-import changeTitleMixin from '../../mixins/changeHeaderTitle.js'
+
 export default {
 	name: 'addFriend',
 	components: {},
-	mixins: [changeTitleMixin.mixinInMounted],
+
 	data() {
 		return {
 			title: '添加好友',

@@ -2,10 +2,15 @@ import Main from './page/main/index.vue'
 import Login from './page/login/index.vue'
 import Regist from './page/regist/index.vue'
 import Info from './page/chat/personalInfo.vue'
-import Chat from './page/chat/index.vue'
+
 import AddFriend from './page/addFriend/index.vue'
 import Group from './page/group/index.vue'
 import createGroup from './page/group/createGroup.vue'
+import messageBox from './page/chat/messageBox.vue'
+import friendBox from './page/chat/friendBox.vue'
+import settingBox from './page/chat/settingBox.vue'
+
+import Test from './page/test/index.vue'
 
 const router = [
   {
@@ -14,25 +19,33 @@ const router = [
     children: [
       {
         path: '/',
-        component: Chat
+        component: messageBox,
       },
       {
-        path: '/info',
-        component: Info
+        path: '/friends',
+        component: friendBox,
       },
       {
-        path: '/addFriend',
-        component: AddFriend
-      },
-      {
-        path: '/group',
-        component: Group
-      },
-      {
-        path: '/createGroup',
-        component: createGroup
+        path: '/settings',
+        component: settingBox,
       }
     ]
+  },
+  {
+    path: '/info',
+    component: Info
+  },
+  {
+    path: '/addFriend',
+    component: AddFriend
+  },
+  {
+    path: '/group',
+    component: Group
+  },
+  {
+    path: '/createGroup',
+    component: createGroup
   },
   {
     path: '/login',
@@ -41,6 +54,10 @@ const router = [
   {
     path: '/regist',
     component: Regist
+  },
+  {
+    path: '/test',
+    component: Test
   }
 ]
 

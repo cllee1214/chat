@@ -1,8 +1,7 @@
 
-const changeHeaderTitle = function (title, isShowGoBackBtn = false) {
+const changeHeaderTitle = function (title) {
   this.$store.commit('changeHeadTitle', {
-    title,
-    isShowGoBackBtn
+    title
   })
 }
 

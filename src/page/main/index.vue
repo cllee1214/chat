@@ -1,28 +1,30 @@
 <template>
   <div id='chat-container'>
-    <Header></Header>
+    <Header title="主页"></Header>
     <Modal v-model='isOpenModal' :okText='btnsText.ok' :cancelText='btnsText.cancel' @ok='okFn' @cancel='cancleFn'>
      {{addFriendContent}}
     </Modal>
     <keep-alive >
       <router-view include="chatbox"></router-view>
     </keep-alive>
+    <Nav></Nav>
   </div>
 </template>
 <script>
 
-import Header from '../header/index.vue'
 import Store from '../../utils/store'
+import Nav from '../nav/index.vue'
 import SocketIO from 'socket.io-client'
 export default {
   name:'mainContainer',
   data () {
     return {
+      socket: SocketIO('http://127.0.0.1:8888/?user=' + Store.get('chat').user),
+      user: Store.get('chat').user,
+
       isOpenModal: false,
       isChatOpen: false,
       addFriendContent: '',
-      socket: SocketIO('http://127.0.0.1:8888/?user=' + Store.get('chat').user),
-      user: Store.get('chat').user,
       messageFrom: '',
       option: '', //好友请求的回复的两种类型： 同意/搁置
       btnsText: {
@@ -31,19 +33,81 @@ export default {
       }
     }
   },
+  components: {
+    Nav
+  },
   provide (){
     return {
       socket: this.socket,
-      user: this.user
+      user: this.user,
     }
   },
-  components: {
-    Header
-  },
   created () {
-   this.handleAddFriend()
+    this.pullFriends()
+    this.handleAddFriend()
+
+    const socket = this.socket
+    socket.on('userList', (data) => {
+      console.log(data)
+      this.$store.commit('setUserList', data)
+    })
+    socket.on('sys', function(data){
+      console.log(data)
+    })
+    socket.on('msg', (data) => {
+      console.log('recive:',data)
+
+      //处理未读消息
+      this.processUnread(data)
+
+      let friend = data.from
+      if(msgStore && !msgStore[friend]){
+        this.$set(msgStore, friend, [])
+      }
+      //更新为本地收到消息的时间
+      data.time = new Date().getTime()
+      msgStore[friend].push(data)
+    })
   },
   methods: {
+     pullFriends() {
+      let myFriendsPromise = this.axios.get(`/pullFriends/user/${this.user}`)
+      let allFriendsPromise = this.axios.get('/pullAllUser')
+      let allGroupInfoPromise = this.axios.get('/getAllGroups')
+      Promise.all([myFriendsPromise, allFriendsPromise, allGroupInfoPromise]).then((rs) => {
+        console.log(rs)
+        let friends =  rs[0].data.data
+        let groupIds = rs[0].data.groups
+        let allUserInfo = rs[1].data.data
+        let allGroupsInfo = rs[2].data.groups
+
+        let friendsMap = {}
+        let groupIdMap = {}
+
+        allGroupsInfo.forEach((group) => {
+          groupIdMap[group.id] = group
+        })
+        let groupsInfoList = groupIds.map((id) => {
+          return groupIdMap[id]
+        })
+
+        friends.forEach(f => {
+          for(let k in f){
+            friendsMap[k] = f[k]
+          }
+        })
+        let friendsInfo = allUserInfo.filter(infoItem => {
+          return friendsMap[infoItem.user]
+        })
+
+
+        this.$store.commit('setGroupsInfoList', groupsInfoList)
+        this.$store.commit('setFriendsInfo', friendsInfo)
+        console.log(friendsInfo)
+      }).catch((err) => {
+
+      })
+    },
     handleAddFriend (){
       const socket = this.socket
       socket.on('addFriend', (data) => {
