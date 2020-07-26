@@ -1,161 +1,171 @@
 <template>
-  <div id='chat-container'>
+  <div id="chat-container">
     <Header title="主页"></Header>
-    <Modal v-model='isOpenModal' :okText='btnsText.ok' :cancelText='btnsText.cancel' @ok='okFn' @cancel='cancleFn'>
-     {{addFriendContent}}
-    </Modal>
-    <keep-alive >
+    <ChatSingle></ChatSingle>
+    <Modal
+      v-model="isOpenModal"
+      :okText="btnsText.ok"
+      :cancelText="btnsText.cancel"
+      @ok="okFn"
+      @cancel="cancleFn"
+    >{{addFriendContent}}</Modal>
+    <keep-alive>
       <router-view include="chatbox"></router-view>
     </keep-alive>
     <Nav></Nav>
   </div>
 </template>
 <script>
-
-import Store from '../../utils/store'
-import Nav from '../nav/index.vue'
-import SocketIO from 'socket.io-client'
+import Store from "../../utils/store";
+import Nav from "../nav/index.vue";
+import ChatSingle from '../chat/chatSingle.vue'
+import SocketIO from "socket.io-client";
 export default {
-  name:'mainContainer',
-  data () {
+  name: "mainContainer",
+  data() {
     return {
-      socket: SocketIO('http://127.0.0.1:8888/?user=' + Store.get('chat').user),
-      user: Store.get('chat').user,
-
+      socket: SocketIO("http://127.0.0.1:8888/?user=" + Store.get("chat").user),
+      user: Store.get("chat").user,
       isOpenModal: false,
-      isChatOpen: false,
-      addFriendContent: '',
-      messageFrom: '',
-      option: '', //好友请求的回复的两种类型： 同意/搁置
+      addFriendContent: "",
+      messageFrom: "",
+      option: "", //好友请求的回复的两种类型： 同意/搁置
       btnsText: {
-        ok: '',
-        cancel: ''
-      }
-    }
+        ok: "",
+        cancel: "",
+      },
+    };
   },
   components: {
-    Nav
+    Nav,
+    ChatSingle
   },
-  provide (){
+  provide() {
     return {
       socket: this.socket,
       user: this.user,
-    }
+    };
   },
-  created () {
-    this.pullFriends()
-    this.handleAddFriend()
-
-    const socket = this.socket
-    socket.on('userList', (data) => {
-      console.log(data)
-      this.$store.commit('setUserList', data)
-    })
-    socket.on('sys', function(data){
-      console.log(data)
-    })
-    socket.on('msg', (data) => {
-      console.log('recive:',data)
-
-      //处理未读消息
-      this.processUnread(data)
-
-      let friend = data.from
-      if(msgStore && !msgStore[friend]){
-        this.$set(msgStore, friend, [])
-      }
-      //更新为本地收到消息的时间
-      data.time = new Date().getTime()
-      msgStore[friend].push(data)
-    })
+  created() {
+    this.pullFriends();
+    this.handleAddFriend();
+    this.initChannel()
+  },
+  beforeRouteEnter(to, from, next) {
+    if (Store.get("chat")) {
+      next();
+    } else {
+      console.log("没有登录，跳转到注册页");
+      next("/regist");
+    }
   },
   methods: {
-     pullFriends() {
-      let myFriendsPromise = this.axios.get(`/pullFriends/user/${this.user}`)
-      let allFriendsPromise = this.axios.get('/pullAllUser')
-      let allGroupInfoPromise = this.axios.get('/getAllGroups')
-      Promise.all([myFriendsPromise, allFriendsPromise, allGroupInfoPromise]).then((rs) => {
-        console.log(rs)
-        let friends =  rs[0].data.data
-        let groupIds = rs[0].data.groups
-        let allUserInfo = rs[1].data.data
-        let allGroupsInfo = rs[2].data.groups
+    initChannel() {
+      const socket = this.socket;
+      socket.on("userList", (data) => {
+        console.log(data);
+        this.$store.commit("setUserList", data);
+      });
+      socket.on("sys", function (data) {
+        console.log(data);
+      });
+      socket.on("msg", (data) => {
+        console.log("recive:", data);
 
-        let friendsMap = {}
-        let groupIdMap = {}
-
-        allGroupsInfo.forEach((group) => {
-          groupIdMap[group.id] = group
-        })
-        let groupsInfoList = groupIds.map((id) => {
-          return groupIdMap[id]
-        })
-
-        friends.forEach(f => {
-          for(let k in f){
-            friendsMap[k] = f[k]
-          }
-        })
-        let friendsInfo = allUserInfo.filter(infoItem => {
-          return friendsMap[infoItem.user]
-        })
-
-
-        this.$store.commit('setGroupsInfoList', groupsInfoList)
-        this.$store.commit('setFriendsInfo', friendsInfo)
-        console.log(friendsInfo)
-      }).catch((err) => {
-
-      })
+        //处理未读消息
+        // this.processUnread(data);
+        let friend = data.from;
+        //更新为本地收到消息的时间
+        data.time = new Date().getTime();
+        data.action = 'recive'
+        this.storeMessage(data)
+      });
     },
-    handleAddFriend (){
-      const socket = this.socket
-      socket.on('addFriend', (data) => {
-        console.log(data)
-        if(data.option){
+    storeMessage(msgBody) {
+      this.$store.commit('setMessageStore', msgBody)
+    },
+    pullFriends() {
+      let myFriendsPromise = this.axios.get(`/pullFriends/user/${this.user}`);
+      let allFriendsPromise = this.axios.get("/pullAllUser");
+      let allGroupInfoPromise = this.axios.get("/getAllGroups");
+      Promise.all([myFriendsPromise, allFriendsPromise, allGroupInfoPromise])
+        .then((rs) => {
+          console.log(rs);
+          let friends = rs[0].data.data;
+          let groupIds = rs[0].data.groups;
+          let allUserInfo = rs[1].data.data;
+          let allGroupsInfo = rs[2].data.groups;
+
+          let friendsMap = {};
+          let groupIdMap = {};
+
+          allGroupsInfo.forEach((group) => {
+            groupIdMap[group.id] = group;
+          });
+          let groupsInfoList = groupIds.map((id) => {
+            return groupIdMap[id];
+          });
+
+          friends.forEach((f) => {
+            for (let k in f) {
+              friendsMap[k] = f[k];
+            }
+          });
+          let friendsInfo = allUserInfo.filter((infoItem) => {
+            return friendsMap[infoItem.user];
+          });
+
+          this.$store.commit("setGroupsInfoList", groupsInfoList);
+          this.$store.commit("setFriendsInfo", friendsInfo);
+          console.log(friendsInfo);
+        })
+        .catch((err) => {});
+    },
+    handleAddFriend() {
+      const socket = this.socket;
+      socket.on("addFriend", (data) => {
+        console.log(data);
+        if (data.option) {
           //收到好友请求回复
-          this.btnsText.cancel = ''
-        }else{
+          this.btnsText.cancel = "";
+        } else {
           //收到好友请求
-          this.btnsText.cancel = '暂时忽略'
+          this.btnsText.cancel = "暂时忽略";
         }
-        this.btnsText.ok = '确定'
-        this.option = data.option
-        this.messageFrom = data.from
-        this.addFriendContent = data.message
-        this.isOpenModal = true
-      })
-    }, 
-    handleClickBtn () {
-      let status = this.isShowGoBackBtn = !this.isShowGoBackBtn
-      title = status ? title : this.lastTitle
-      this.changeTitle(title)
+        this.btnsText.ok = "确定";
+        this.option = data.option;
+        this.messageFrom = data.from;
+        this.addFriendContent = data.message;
+        this.isOpenModal = true;
+      });
+    },
+    handleClickBtn() {
+      let status = (this.isShowGoBackBtn = !this.isShowGoBackBtn);
+      title = status ? title : this.lastTitle;
+      this.changeTitle(title);
     },
     okFn() {
-      if(!this.option){
-        console.log('friend add!')
-        this.socket.emit('addFriend', {
+      if (!this.option) {
+        console.log("friend add!");
+        this.socket.emit("addFriend", {
           to: this.messageFrom,
           from: this.user,
-          type: 'response',
-          option: 'agree'
-        }) 
+          type: "response",
+          option: "agree",
+        });
       }
-     this.isOpenModal = false
+      this.isOpenModal = false;
     },
-    cancleFn() {
-
-    }
-  }
-}
+    cancleFn() {},
+  },
+};
 </script>
 <style>
-@import '../../assets/common.scss';
-#chat-container{
+@import "../../assets/common.scss";
+#chat-container {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
 }
-
 </style>

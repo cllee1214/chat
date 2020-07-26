@@ -25,7 +25,7 @@
 <script>
 import Store from '../../utils/store'
 export default {
-  name:'chatbox',
+  name:'setting-box',
   inject: ['user'],
   methods: {
     loginout () {

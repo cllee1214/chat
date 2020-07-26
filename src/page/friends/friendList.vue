@@ -52,7 +52,11 @@ export default {
   methods: {
     clickUser (user) {
       let id = this.userList[user]
-      this.$emit('startChat', id, user)
+      this.$store.commit('switchChatBox')
+      this.$store.commit('setCurrentFriend', {
+        id,
+        user
+      })
     }
   }
 }

@@ -1,14 +1,14 @@
 import Main from './page/main/index.vue'
 import Login from './page/login/index.vue'
 import Regist from './page/regist/index.vue'
-import Info from './page/chat/personalInfo.vue'
+import Info from './page/setting/personalInfo.vue'
 
-import AddFriend from './page/addFriend/index.vue'
+import AddFriend from './page/friends/addFriend.vue'
 import Group from './page/group/index.vue'
-import createGroup from './page/group/createGroup.vue'
-import messageBox from './page/chat/messageBox.vue'
-import friendBox from './page/chat/friendBox.vue'
-import settingBox from './page/chat/settingBox.vue'
+import CreateGroup from './page/group/createGroup.vue'
+import MessageBox from './page/message/index.vue'
+import FriendBox from './page/friends/friendList.vue'
+import SettingBox from './page/setting/index.vue'
 
 import Test from './page/test/index.vue'
 
@@ -19,15 +19,15 @@ const router = [
     children: [
       {
         path: '/',
-        component: messageBox,
+        component: MessageBox,
       },
       {
         path: '/friends',
-        component: friendBox,
+        component: FriendBox,
       },
       {
         path: '/settings',
-        component: settingBox,
+        component: SettingBox,
       }
     ]
   },
@@ -45,7 +45,7 @@ const router = [
   },
   {
     path: '/createGroup',
-    component: createGroup
+    component: CreateGroup
   },
   {
     path: '/login',

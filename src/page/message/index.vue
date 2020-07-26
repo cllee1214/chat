@@ -17,7 +17,7 @@
 </template>
 <script>
 export default {
-  name:'chating-list',
+  name:'messages-list',
   props: ['unread', 'currentFriend'],
   created () {
    

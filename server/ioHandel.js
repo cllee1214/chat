@@ -42,7 +42,8 @@ var serverClient = io.on('connection', function (socket) {
     socket.to(id).emit('msg',{
       from: data.from,
       message: data.message,
-      to: data.to
+      to: data.to,
+      type: data.type
     })
     console.log(data)
   })

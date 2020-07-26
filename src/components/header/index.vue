@@ -17,11 +17,18 @@ export default {
     computed: {
       isShowGoBackBtn: function() {
           return this.title != '主页'
+      },
+      isChatOpen() {
+        return this.$store.state.isChatOpen
       }
     },
     methods: {
         handleClick () {
-            this.$router.go(-1)
+          if(this.isChatOpen){
+            this.$store.commit('switchChatBox')
+          }else{
+             this.$router.go(-1)
+          }
         }
     }
 }
