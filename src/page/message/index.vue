@@ -1,13 +1,13 @@
 <template>
   <div id='message-list'>
     <ul v-if='userList'>
-      <li class='user-item' :class='{cur:k == currentFriend}' @click="clickUser(val, k)" v-for='(val,k) in userList' :key="k">
-        <!-- <span class='unread' v-show="unread[k]">{{unread[k]}}</span> -->
+      <li class='user-item' :class='{cur:k == currentFriend}' @click="clickUser(k)" v-for='(val,k) in userList' :key="k">
         <span class='avatar'></span>
         <div class='info'>
           <div class='nickname'>{{k}}</div>
           <div class='last-msg'>最后一句话</div>
         </div>
+        <i class="unread-count" v-show="unreadMsgCount.single[k] > 0">{{unreadMsgCount.single[k]}}</i>
       </li>
     </ul>
     <div v-else>
@@ -16,6 +16,7 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
   name:'messages-list',
   props: ['unread', 'currentFriend'],
@@ -23,19 +24,33 @@ export default {
    
   },
   computed: {
+    ...mapState([
+      'unreadMsgCount'
+    ]),
     userList() {
       return this.$store.state.userList
     }
   },
   methods: {
-    clickUser (id, user) {
-      this.$emit('startChat', id, user)
+   clickUser (user) {
+      let id = this.userList[user]
+      this.$store.commit('switchChatBox')
+      this.$store.commit('setCurrentFriend', {
+        id,
+        user
+      })
+      //未读消息数量置为0
+      this.$store.commit('setUnreadCount', {
+        type: 'single',
+        key: user,
+        count: 0
+      })
     }
   }
 }
 </script>
 
-<style>
+<style lang='scss'>
 #message-list{
   width: 100%;
   height: 100%;
@@ -52,15 +67,19 @@ export default {
   color: #aaa;
   padding-right: 20px;
 }
-.unread{
-  border-radius: 50px;
-  width: 16px;
-  height: 16px;
-  text-align: center;
+.unread-count{
   position: absolute;
-  right: 5px;
-  top:17px;
+  right: 10px;
+  top:10px;
   font-size: 12px;
-  background-color: rgba(50, 213, 140, 1) ;
+  color: red;
+  width: 15px;
+  height: 15px;
+  border:1px solid red;
+  line-height: 15px;
+  text-align: center;
+  border-radius: 15px;
+  font-style: normal;
 }
+
 </style>

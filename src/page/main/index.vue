@@ -20,6 +20,7 @@ import Store from "../../utils/store";
 import Nav from "../nav/index.vue";
 import ChatSingle from '../chat/chatSingle.vue'
 import SocketIO from "socket.io-client";
+import { mapState } from 'vuex'
 export default {
   name: "mainContainer",
   data() {
@@ -35,6 +36,12 @@ export default {
         cancel: "",
       },
     };
+  },
+  computed: {
+    ...mapState([
+      'isChatOpen',
+      'currentFirend'
+    ])
   },
   components: {
     Nav,
@@ -73,7 +80,7 @@ export default {
         console.log("recive:", data);
 
         //处理未读消息
-        // this.processUnread(data);
+        this.handleUnread(data);
         let friend = data.from;
         //更新为本地收到消息的时间
         data.time = new Date().getTime();
@@ -83,6 +90,16 @@ export default {
     },
     storeMessage(msgBody) {
       this.$store.commit('setMessageStore', msgBody)
+    },
+    handleUnread(data) {
+      let friend = this.currentFirend.user
+      let msgFromFriend = data.from
+      if(friend !== msgFromFriend || !this.isChatOpen){
+        this.$store.commit('setUnreadCount', {
+          key: msgFromFriend,
+          type: 'single'
+        })
+      }
     },
     pullFriends() {
       let myFriendsPromise = this.axios.get(`/pullFriends/user/${this.user}`);

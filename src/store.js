@@ -6,6 +6,10 @@ const storeData = {
     groupsInfoList: [],
     isChatOpen: false,
     currentFirend: {},
+    unreadMsgCount:{
+      single: {},
+      group: {}
+    },
     msgStore: {
       single: {},
       group: {}
@@ -40,7 +44,22 @@ const storeData = {
         }
         single[key].push(playload)
       }
-   }
+   },
+   setUnreadCount(state, playload) {
+     let {single: singleCount} = state.unreadMsgCount 
+     let {key: friend, type, count} = playload
+     if(type === 'single') {
+       if(!singleCount[friend]){
+        Vue.set(singleCount, friend, 0)
+       }
+     }
+     if(count === undefined) {
+      singleCount[friend]++
+     }else{
+      singleCount[friend] = count
+     }
+     
+   },
   }
 }
 

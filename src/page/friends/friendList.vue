@@ -46,7 +46,8 @@ export default {
     ...mapState([
       'userList',
       'friendsInfo',
-      'groupsInfoList'
+      'groupsInfoList',
+      'unreadMsgCount'
     ])
   },
   methods: {
@@ -56,6 +57,12 @@ export default {
       this.$store.commit('setCurrentFriend', {
         id,
         user
+      })
+      //未读消息数量置为0
+      this.$store.commit('setUnreadCount', {
+        type: 'single',
+        key: user,
+        count: 0
       })
     }
   }
@@ -86,6 +93,7 @@ export default {
   overflow: hidden;
   border:1px solid #ccc;
   box-sizing: border-box;
+  position: relative;
   img{
     width: 100%;
     height: 100%;
