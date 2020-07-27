@@ -13,7 +13,8 @@ const storeData = {
     msgStore: {
       single: {},
       group: {}
-    }
+    },
+    avatarMap: null
   },
   getters: {
    
@@ -58,8 +59,10 @@ const storeData = {
      }else{
       singleCount[friend] = count
      }
-     
    },
+   setAvatarMap(state, playload) {
+    state.avatarMap = playload
+   }
   }
 }
 

@@ -37,7 +37,6 @@ import { mapState } from 'vuex'
 
 export default {
   name:'friends-list',
-  props: ['unread'],
   mixins:[avatarFilter],
   created () {
     console.log(this.userList)

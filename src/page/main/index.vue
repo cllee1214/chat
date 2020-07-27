@@ -111,10 +111,12 @@ export default {
           let friends = rs[0].data.data;
           let groupIds = rs[0].data.groups;
           let allUserInfo = rs[1].data.data;
+          console.log('alluserinfo:', allUserInfo)
           let allGroupsInfo = rs[2].data.groups;
 
           let friendsMap = {};
           let groupIdMap = {};
+          let avatarMap = {};
 
           allGroupsInfo.forEach((group) => {
             groupIdMap[group.id] = group;
@@ -129,11 +131,13 @@ export default {
             }
           });
           let friendsInfo = allUserInfo.filter((infoItem) => {
+            avatarMap[infoItem.user] = infoItem.avatar
             return friendsMap[infoItem.user];
           });
 
           this.$store.commit("setGroupsInfoList", groupsInfoList);
           this.$store.commit("setFriendsInfo", friendsInfo);
+          this.$store.commit('setAvatarMap', avatarMap)
           console.log(friendsInfo);
         })
         .catch((err) => {});

@@ -1,13 +1,15 @@
 <template>
   <div id='message-list'>
     <ul v-if='userList'>
-      <li class='user-item' :class='{cur:k == currentFriend}' @click="clickUser(k)" v-for='(val,k) in userList' :key="k">
-        <span class='avatar'></span>
+      <li class='user-item' @click="clickUser(friend.user)" v-for='friend  in friendsInfo' :key="friend.user">
+        <span class='avatar'>
+            <img :src="friend.avatar | renderImgPath" alt="">
+        </span>
         <div class='info'>
-          <div class='nickname'>{{k}}</div>
+          <div class='nickname'>{{friend.user}}</div>
           <div class='last-msg'>最后一句话</div>
         </div>
-        <i class="unread-count" v-show="unreadMsgCount.single[k] > 0">{{unreadMsgCount.single[k]}}</i>
+        <i class="unread-count" v-show="unreadMsgCount.single[friend.user] > 0">{{unreadMsgCount.single[friend.user]}}</i>
       </li>
     </ul>
     <div v-else>
@@ -17,15 +19,17 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+import avatarFilter from '../../mixins/avatarFilter.js'
 export default {
   name:'messages-list',
-  props: ['unread', 'currentFriend'],
+  mixins:[avatarFilter],
   created () {
    
   },
   computed: {
     ...mapState([
-      'unreadMsgCount'
+      'unreadMsgCount',
+      'friendsInfo'
     ]),
     userList() {
       return this.$store.state.userList

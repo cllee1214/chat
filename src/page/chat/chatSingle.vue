@@ -4,7 +4,9 @@
       <div class="display-box">
         <ul>
           <li :key="item.index" v-for='item in currentMessageList' :class='[item.from == user ? "self-message" : "friend-message"]' class='message-item'>
-             <span class='avatar'></span>
+             <span class='avatar'>
+               <img :src="avatarMap[item.from ] | renderImgPath" alt="">
+             </span>
             <div class='message'>
                {{item.message}}
             </div>
@@ -20,10 +22,11 @@
 </template>
 <script>
 import { mapState } from 'vuex'
-
+import avatarFilter from '../../mixins/avatarFilter.js'
 export default {
   name:'chatbox',
   inject:['user', 'socket'],
+  mixins: [avatarFilter],
   data () {
     return {
       message: '',
@@ -40,7 +43,8 @@ export default {
     ...mapState([
       'msgStore',
       'isChatOpen',
-      'currentFirend'
+      'currentFirend',
+      'avatarMap'
     ])
   },
   created () {
@@ -56,8 +60,8 @@ export default {
       }
     },
     clickSendBtn() {
-      let friend = this.currentFirend.user
       const socket = this.socket
+      let friend = this.currentFirend.user
       let msgBody = {
         message: this.message,
         time: new Date().getTime(),
@@ -142,17 +146,16 @@ export default {
   text-align: left;
 }
 .self-message .avatar{
-  width: px2rem(60);
- height: px2rem(60);
+  width: px2rem(90);
+  height: px2rem(90);
   border-radius: 20px;
-  background: gray;;
   margin: 0px 10px 0 15px;
   float: right;
 }
 .self-message .message{
   float: right;
- height:px2rem(60);
-  line-height: px2rem(60);
+  height:px2rem(90);
+  line-height: px2rem(90);
   border-radius: 10px;
   padding: 0 10px;
   color: #fff;
@@ -161,17 +164,15 @@ export default {
   color: #aaa;
 }
 .friend-message .avatar{
-  width: px2rem(60);
-  height: px2rem(60);
-  /* border-radius: 20px; */
-  background: gray;;
+  width: px2rem(90);
+  height: px2rem(90);
   margin: 0px 10px 0 15px;
   float: left;
 }
 .friend-message .message{
   float: left;
-  height:px2rem(60);
-  line-height: px2rem(60);
+  height:px2rem(90);
+  line-height: px2rem(90);
   border-radius: 10px;
   padding: 0 10px;
   color: #aaa;
