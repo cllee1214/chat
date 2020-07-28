@@ -9,18 +9,18 @@
           </span>
           <div class='info'>
             <div class='nickname'>{{friend.nickname}}</div>
-            <div class='feeling'><span>[{{userList[friend.user] ? '当前在线':'离线'}}] </span>{{friend.declaration}}</div>
+            <div class='feeling'><span>[{{userList && userList[friend.user] ? '当前在线':'离线'}}] </span>{{friend.declaration}}</div>
           </div>
         </li>
       </ul>
       <div class="roll">我的群</div>
       <ul class="group">
-        <li class="user-item" v-for="group in groupsInfoList" :key='group.id'>
+        <li class="user-item" @click="clickGroup(group)" v-for="group in groupsInfoList" :key='group.id'>
           <span class='avatar'>
 
           </span>
           <div class="info">
-            <div class="nickname">{{group.name}}</div>
+            <div class="nickname">{{group.name}}{{group.id}}</div>
             <div class='feeling'></div>
           </div>
         </li>
@@ -52,7 +52,7 @@ export default {
   methods: {
     clickUser (user) {
       let id = this.userList[user]
-      this.$store.commit('switchChatBox')
+      this.$store.commit('switchChatBox',{type: 'single'})
       this.$store.commit('setCurrentFriend', {
         id,
         user
@@ -63,6 +63,10 @@ export default {
         key: user,
         count: 0
       })
+    },
+    clickGroup(group) {
+       this.$store.commit('switchChatBox', {type: 'group'})
+       this.$store.commit('setCurrentGroup', group)
     }
   }
 }

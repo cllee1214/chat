@@ -5,7 +5,9 @@ const storeData = {
     friendsInfo: [],
     groupsInfoList: [],
     isChatOpen: false,
+    currentChatType: '',
     currentFirend: {},
+    currentGroup: {},
     unreadMsgCount:{
       single: {},
       group: {}
@@ -14,7 +16,8 @@ const storeData = {
       single: {},
       group: {}
     },
-    avatarMap: null
+    avatarMap: null,
+    groupIds: []
   },
   getters: {
    
@@ -29,13 +32,15 @@ const storeData = {
    setGroupsInfoList (state, playload) {
      state.groupsInfoList = playload
    },
-   switchChatBox(state) {
+   switchChatBox(state, playload) {
     state.isChatOpen = !state.isChatOpen
+    state.currentChatType = playload && playload.type
    },
    setCurrentFriend (state, playload) {
      state.currentFirend = playload
    },
    setMessageStore (state, playload) {
+      console.log('playload',playload)
       let {single, group} = state.msgStore
       let type = playload.type
       if (type === 'single') {
@@ -44,6 +49,12 @@ const storeData = {
           Vue.set(single, key, [])
         }
         single[key].push(playload)
+      }else if(type === 'group') {
+        let key = playload.to
+        if(!group[key]){
+          Vue.set(group, key, [])
+        }
+        group[key].push(playload)
       }
    },
    setUnreadCount(state, playload) {
@@ -62,6 +73,14 @@ const storeData = {
    },
    setAvatarMap(state, playload) {
     state.avatarMap = playload
+   },
+   setGroupIds(state, playload) {
+     playload.forEach((id, index) => {
+       Vue.set(state.groupIds, index, id)
+     })
+   },
+   setCurrentGroup(state, playload) {
+    state.currentGroup = playload
    }
   }
 }

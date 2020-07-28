@@ -26,6 +26,7 @@ export default {
   data() {
     return {
       socket: SocketIO("http://127.0.0.1:8888/?user=" + Store.get("chat").user),
+      groupSocketMap: {},
       user: Store.get("chat").user,
       isOpenModal: false,
       addFriendContent: "",
@@ -40,7 +41,8 @@ export default {
   computed: {
     ...mapState([
       'isChatOpen',
-      'currentFirend'
+      'currentFirend',
+      'groupIds'
     ])
   },
   components: {
@@ -51,12 +53,13 @@ export default {
     return {
       socket: this.socket,
       user: this.user,
+      groupSocketMap: this.groupSocketMap
     };
   },
   created() {
     this.pullFriends();
     this.handleAddFriend();
-    this.initChannel()
+    this.initSingleChannel()
   },
   beforeRouteEnter(to, from, next) {
     if (Store.get("chat")) {
@@ -67,7 +70,21 @@ export default {
     }
   },
   methods: {
-    initChannel() {
+    initGroupChannel(ids) {
+        ids.forEach((id) => {
+          let socket = SocketIO(`http://127.0.0.1:8888/${id}`)
+          this.$set(this.groupSocketMap, id, socket)
+          socket.on('connect', function() {
+            console.log(id,' connect')
+            console.log(socket)
+          })
+          socket.on('msg', data => {
+            console.log('group msg:', data)
+            this.storeMessage(data)
+          })
+        })
+    },
+    initSingleChannel() {
       const socket = this.socket;
       socket.on("userList", (data) => {
         console.log(data);
@@ -138,6 +155,9 @@ export default {
           this.$store.commit("setGroupsInfoList", groupsInfoList);
           this.$store.commit("setFriendsInfo", friendsInfo);
           this.$store.commit('setAvatarMap', avatarMap)
+          this.$store.commit('setGroupIds', groupIds)
+
+          this.initGroupChannel(groupIds)
           console.log(friendsInfo);
         })
         .catch((err) => {});

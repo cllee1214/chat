@@ -123,5 +123,22 @@ var serverClient = io.on('connection', function (socket) {
   
 });
 
+MongoClient.connect(url, function (e, client) {
+  var db = client.db('chat')
+  db.collection('group').find({}).toArray().then(function(groups){
+    console.log('group')
+    console.log(groups)
+    groups.forEach(group => {
+      var current = io.of('/' + group.id).on('connection',function(socket) {
+        socket.on('msg', function(data) {
+          console.log(data)
+          current.emit('msg', data)
+        })
+      })
+    })
+  })
+})
+
+
 
 module.exports = server

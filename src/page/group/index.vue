@@ -13,7 +13,6 @@
 export default {
   name: 'group',
   components: {},
-  inject: ['user'],
   data() {
     return {
       title: '加入群聊',
@@ -29,13 +28,13 @@ export default {
   computed: {},
   methods: {
     searchGroup (id) {
-      console.log(id)
+      const user = this.$route.query.user
       this.axios.get(`/searchGroup/id/${id}`).then((data) => {
        var data = data.data
        if(data.code == '1') {
          this.groupInfo.name = data.name
          this.groupInfo.location = data.location
-         this.groupInfo.isInGroup = data.users.indexOf(this.user) !== -1
+         this.groupInfo.isInGroup = data.users.indexOf(user) !== -1
          this.groupInfo.status = true
        }else{
           this.groupInfo.status = false
@@ -47,7 +46,7 @@ export default {
       })
     },
     addGroup (id) {
-      this.axios.post(`/addGroup/id/${id}/user/${this.user}`).then(() => {
+      this.axios.post(`/addGroup/id/${id}/user/${this.$route.query.user}`).then(() => {
         
       })
     }

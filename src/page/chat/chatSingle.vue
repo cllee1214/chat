@@ -25,7 +25,7 @@ import { mapState } from 'vuex'
 import avatarFilter from '../../mixins/avatarFilter.js'
 export default {
   name:'chatbox',
-  inject:['user', 'socket'],
+  inject:['user', 'socket', 'groupSocketMap'],
   mixins: [avatarFilter],
   data () {
     return {
@@ -35,16 +35,24 @@ export default {
   },
   computed: {
     title:function() {
-      return `正在和 ${this.$store.state.currentFirend.user} 聊天...`
+      return this.currentChatType === 'single' ? 
+      `正在和 ${this.$store.state.currentFirend.user} 聊天...` 
+      : 
+      this.currentGroup.name + '(' + this.currentGroup.users.length + ')'
     },
     currentMessageList: function() {
-      return this.msgStore.single[this.currentFirend.user]
+      return this.currentChatType === 'single' ? 
+      this.msgStore.single[this.currentFirend.user]
+      :
+      this.msgStore.group[this.currentGroup.id]
     },
     ...mapState([
       'msgStore',
       'isChatOpen',
       'currentFirend',
-      'avatarMap'
+      'avatarMap',
+      'currentChatType',
+      'currentGroup'
     ])
   },
   created () {
@@ -59,8 +67,7 @@ export default {
         this.$set(this.unread, friend, ++num)
       }
     },
-    clickSendBtn() {
-      const socket = this.socket
+    sendSingle() {
       let friend = this.currentFirend.user
       let msgBody = {
         message: this.message,
@@ -71,17 +78,26 @@ export default {
         action: 'send'
       }
       //本地储存消息
-      this.storeMessage(msgBody)
+      this.$store.commit('setMessageStore', msgBody)
       //发送到服务器中转
-      this.sendMsg(msgBody)
+      this.socket.emit('msg', msgBody)
       //清空输入框
       this.message = ''
     },
-    storeMessage(msgBody) {
-      this.$store.commit('setMessageStore', msgBody)
+    sendGoup() {
+      const socket = this.groupSocketMap[this.currentGroup.id]
+      let msgBody = {
+        message: this.message,
+        time: new Date().getTime(),
+        from: this.user,
+        to: this.currentGroup.id,
+        type: 'group',
+        action: 'send'
+      }
+      socket.emit('msg', msgBody)
     },
-    sendMsg(msgBody) {
-      this.socket.emit('msg', msgBody)
+    clickSendBtn() {
+      this.currentChatType === 'single' ? this.sendSingle() : this.sendGoup()
     }
   }
 }
