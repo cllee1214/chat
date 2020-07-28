@@ -9,7 +9,7 @@
           </span>
           <div class='info'>
             <div class='nickname'>{{friend.nickname}}</div>
-            <div class='feeling'><span>[当前在线] </span>{{friend.declaration}}</div>
+            <div class='feeling'><span>[{{userList[friend.user] ? '当前在线':'离线'}}] </span>{{friend.declaration}}</div>
           </div>
         </li>
       </ul>
@@ -39,7 +39,7 @@ export default {
   name:'friends-list',
   mixins:[avatarFilter],
   created () {
-    console.log(this.userList)
+    console.log('userlist',this.userList)
   },
   computed: {
     ...mapState([
