@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Store from './utils/store.js'
+
 export default {
   name: 'app',
   data: function(){
