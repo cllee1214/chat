@@ -1,9 +1,13 @@
 var express = require('express');
 var app = express();
-var route = require('./route')
 var path = require('path')
 var ejs = require('ejs')
 var bodyParser = require('body-parser');
+
+
+var indexRoute = require('./routers/index')
+var friendRoute = require('./routers/friend.js')
+
 var checkLogin = require('./middleware/checkLogin.js')
 
 app.enabled('etag')
@@ -24,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'static')));
 
 app.use(checkLogin)
 
-app.use('/', route)
+app.use('/', indexRoute)
+app.use('/friend', friendRoute)
 
 module.exports = app

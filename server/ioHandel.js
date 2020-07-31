@@ -69,7 +69,6 @@ var serverClient = io.on('connection', function (socket) {
    return new Promise(function(resolve, reject){
       MongoClient.connect(url, function(e, client) {
         if(e){
-          console.log('xx')
           console.log(e)
         }
         var db = client.db('chat')
@@ -85,6 +84,7 @@ var serverClient = io.on('connection', function (socket) {
   }
   
   socket.on('addFriend',function(data) {
+    console.log(data)
     var friendWho = data.to
     var id = userList[friendWho]
     if(data.type == 'requst'){
@@ -126,8 +126,8 @@ var serverClient = io.on('connection', function (socket) {
 MongoClient.connect(url, function (e, client) {
   var db = client.db('chat')
   db.collection('group').find({}).toArray().then(function(groups){
-    console.log('group')
-    console.log(groups)
+    // console.log('group')
+    // console.log(groups)
     groups.forEach(group => {
       var current = io.of('/' + group.id).on('connection',function(socket) {
         socket.on('msg', function(data) {
