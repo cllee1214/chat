@@ -12,12 +12,10 @@ import MyDirective from './directive/index.js'
 
 import routes from './router.js'
 import storeData from './store.js'
-import Store from './utils/store.js'
 
 import './assets/common.scss'
 
 Vue.config.devtools = true
-Axios.defaults.headers.common['Authorization'] =   Store.get('chat') && Store.get('chat').token
 
 Vue.use(VueRouter)
 Vue.use(Vuex)

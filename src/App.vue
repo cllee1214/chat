@@ -16,8 +16,13 @@ export default {
   created() {
 
   },
+  mounted() {
+  },
   methods: {
   
+  },
+  beforeDestroy() {
+    
   }
 }
 </script>

@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+var mongoose = require('./connect.js').mongoose;
 var Schema = mongoose.Schema;
 let models = {}
 
@@ -14,9 +14,9 @@ const config = {
             type: 'String',
             validate: {
                 validator: function(value) {
-                    return /[a-zA-Z]{1}[a-zA-Z0-9]{5,10}/.test(value)
+                    return /[a-zA-Z]{1}[a-zA-Z0-9]{2,10}/.test(value)
                 },
-                message: '{VALUE}应为字符开头的6-10位的字母/数字'
+                message: '用户名应为字符开头的3-10位的字母/数字'
             },
             required: [true, '请填写用户名']
         },
@@ -27,12 +27,12 @@ const config = {
                     return /[0-9A-Za-z]{6,10}/.test(value)
                 },
                 message: '密码应为6-10位的数字/字母'
-            }
-           
+            },
+            required: [true, '请填写密码']
         },
         nickname: {
             type: 'String',
-            minlength: 1,
+            minlength: 0,
             maxlength: 10
         },
         avatar: 'string',

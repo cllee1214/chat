@@ -16,57 +16,6 @@ router.get('/', function (req, res) {
   res.render('index.html')
 })
 
-router.post('/login', function (req, res) {
-  console.log('user', req.body.user)
-  var user = req.body.user
-  var pwd = req.body.pwd
-  MongoClient.connect(url, function (e, client) {
-    var db = client.db('chat')
-    db.collection('user').findOne({ user: user }, function (e, doc) {
-      console.log(doc)
-      if (doc && doc['pwd'] == pwd) {
-        res.json({
-          code: '1',
-          msg: '登录成功',
-          token: jwt.sign({ user: user }, secret, { expiresIn: '2h' })
-        })
-      } else {
-        res.json({
-          code: 0,
-          msg: '用户或密码错误！'
-        })
-      }
-    })
-  })
-})
-
-
-router.post('/regist', function (req, res) {
-  var user = req.body.user;
-  var pwd = req.body.pwd
-
-  MongoClient.connect(url, function (e, client) {
-    var db = client.db('chat')
-    var data = { user: user, pwd: pwd, nickname: user, avatar: '', declaration: '' }
-    db.collection('user').insertOne(data, function (e, r) {
-      if (e) {
-        res.json({
-          code: 0,
-          msg: '注册失败，请重试！'
-        })
-      } else {
-        console.log('注册成功')
-        res.json({
-          code: '1',
-          msg: '注册成功',
-          token: jwt.sign({ user: user }, secret, { expiresIn: '2h' })
-        })
-      }
-    })
-  })
-})
-
-
 function insertInfo(obj, res) {
   MongoClient.connect(url, function (e, client) {
     var db = client.db('chat')
@@ -176,62 +125,6 @@ router.get('/info/user/:user/', function (req, res) {
           })
         }
       }
-    })
-  })
-})
-
-router.get('/pullFriends/user/:user', function (req, res) {
-  var user = req.params.user
-  MongoClient.connect(url, function (e, client) {
-    var db = client.db('chat')
-    db.collection('user').findOne({ user: user }, function (e, doc) {
-      if (e) {
-        res.json({
-          code: '0',
-          msg: '拉取失败'
-        })
-      } else {
-        if (doc) {
-          console.log(doc)
-          res.json({
-            code: '1',
-            msg: '拉取成功',
-            data: doc.friends,
-            groups: doc.groups
-          })
-        } else {
-          res.json({
-            code: '0',
-            msg: user + '不存在'
-          })
-        }
-      }
-    })
-  })
-})
-router.get('/pullAllUser', function (req, res) {
-  MongoClient.connect(url, function (e, client) {
-    var db = client.db('chat')
-    db.collection('user').find({}).toArray().then(function (result) {
-      var data = result.map(function (item) {
-        return {
-          user: item.user,
-          nickname: item.nickname,
-          avatar: item.avatar,
-          declaration: item.declaration
-        }
-      })
-      res.json({
-        code: '1',
-        data: data,
-        msg: '拉取成功'
-      })
-    }).catch(function (err) {
-      console.log(err)
-      res.json({
-        code: '0',
-        msg: '拉取失败'
-      })
     })
   })
 })

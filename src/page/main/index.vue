@@ -21,11 +21,12 @@ import Nav from "../nav/index.vue";
 import ChatSingle from '../chat/chatSingle.vue'
 import SocketIO from "socket.io-client";
 import { mapState } from 'vuex'
+import Axios from 'axios'
 export default {
-  name: "mainContainer",
+  name: "mainPage",
   data() {
     return {
-      socket: SocketIO("http://127.0.0.1:8888/?user=" + Store.get("chat").user),
+      // socket: SocketIO("http://127.0.0.1:8888/?user=" + Store.get("chat").user),
       groupSocketMap: {},
       user: Store.get("chat").user,
       isOpenModal: false,
@@ -40,6 +41,7 @@ export default {
   },
   computed: {
     ...mapState([
+      'socket',
       'isChatOpen',
       'currentFirend',
       'groupIds'
@@ -57,6 +59,8 @@ export default {
     };
   },
   created() {
+    this.setHeader()
+    this.checkLoginExpire()
     this.pullFriends();
     this.handleAddFriend();
     this.initSingleChannel()
@@ -70,19 +74,32 @@ export default {
     }
   },
   methods: {
+    initSocket() {
+      const socket = SocketIO("http://127.0.0.1:8888/?user=" + Store.get("chat").user)
+      this.$store.commit('initSocket', socket)
+    },
+    checkLoginExpire() {
+      this.axios.interceptors.response.use((res) => {
+        console.log(res)
+        return res
+      })
+    },
+    setHeader() {
+      Axios.defaults.headers.common['Authorization'] = Store.get('chat') && Store.get('chat').token
+    },
     initGroupChannel(ids) {
-        ids.forEach((id) => {
-          let socket = SocketIO(`http://127.0.0.1:8888/${id}`)
-          this.$set(this.groupSocketMap, id, socket)
-          socket.on('connect', function() {
-            console.log(id,' connect')
-            console.log(socket)
-          })
-          socket.on('msg', data => {
-            console.log('group msg:', data)
-            this.storeMessage(data)
-          })
+      ids.forEach((id) => {
+        let socket = SocketIO(`http://127.0.0.1:8888/${id}`)
+        this.$set(this.groupSocketMap, id, socket)
+        socket.on('connect', function() {
+          console.log(id,' connect')
+          console.log(socket)
         })
+        socket.on('msg', data => {
+          console.log('group msg:', data)
+          this.storeMessage(data)
+        })
+      })
     },
     initSingleChannel() {
       const socket = this.socket;
@@ -119,16 +136,26 @@ export default {
       }
     },
     pullFriends() {
-      let myFriendsPromise = this.axios.get(`/pullFriends/user/${this.user}`);
-      let allFriendsPromise = this.axios.get("/pullAllUser");
+      let myFriendsPromise = this.axios.get(`/user/friendsInfo/user/${this.user}`);
+      let allFriendsPromise = this.axios.get("/user/allUsers");
       let allGroupInfoPromise = this.axios.get("/getAllGroups");
       Promise.all([myFriendsPromise, allFriendsPromise, allGroupInfoPromise])
         .then((rs) => {
           console.log(rs);
+          if(rs.some(r => {
+            return r.data.code === -1
+          })) {
+            this.$Tips.show('登录过期，请重新登录')
+            Store.remove('chat')
+            setTimeout(() => {
+               this.$router.push('/login')
+            })
+            return
+          }
           let friends = rs[0].data.data;
           let groupIds = rs[0].data.groups;
           let allUserInfo = rs[1].data.data;
-          console.log('alluserinfo:', allUserInfo)
+          // console.log('alluserinfo:', allUserInfo)
           let allGroupsInfo = rs[2].data.groups;
 
           let friendsMap = {};

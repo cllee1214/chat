@@ -6,11 +6,10 @@
 </template>
 
 <script>
-
+import mapStete, { mapState } from 'vuex'
 export default {
 	name: 'addFriend',
 	components: {},
-
 	data() {
 		return {
 			title: '添加好友',
@@ -23,8 +22,11 @@ export default {
 			}
 		};
 	},
-	inject: ['socket','user'],
-	computed: {},
+	computed: {
+		...mapState([
+			'socket'
+		])
+	},
 	methods: {
 
 	},
@@ -47,7 +49,6 @@ export default {
 			})
 		},
 		showSearchResult (data) {
-			console.log(data)
 			if(data){
 				let keys = Object.keys(JSON.parse(JSON.stringify(this.friendInfo)))
 				keys.forEach(key => {
@@ -62,7 +63,7 @@ export default {
 		addFriend (friend){
 			const socket = this.socket
 			socket.emit('addFriend', {
-				from: this.user,
+				from: this.$route.query.user,
 				to: friend,
 				type: 'requst'
 			})

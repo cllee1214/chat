@@ -8,10 +8,10 @@
         <li>进入朋友圈</li>
         <li>夜间</li>
         <li>
-           <router-link :to="{path: 'group',query: {user: user}}">加入群聊</router-link>
+           <router-link :to="{path: 'group', query: {user: user}}">加入群聊</router-link>
         </li>
         <li>
-           <router-link :to="{path: 'addFriend'}">添加好友</router-link>
+           <router-link :to="{path: 'addFriend', query: {user: user}}">添加好友</router-link>
         </li>
         <li>
            <div @click='loginout' class="loginout">退出登录</div>

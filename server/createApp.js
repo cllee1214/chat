@@ -4,12 +4,12 @@ var path = require('path')
 var ejs = require('ejs')
 var bodyParser = require('body-parser');
 
-// require('./db/connect.js')
-
 //routes
 var indexRoute = require('./routers/index')
 var registRoute = require('./routers/regist')
+var loginRoute = require('./routers/login')
 var friendRoute = require('./routers/friend.js')
+var userRoute = require('./routers/user')
 
 var checkLogin = require('./middleware/checkLogin.js')
 
@@ -33,6 +33,8 @@ app.use(express.static(path.join(__dirname, 'static')));
 
 app.use('/', indexRoute)
 app.use('/regist', registRoute)
+app.use('/login', loginRoute)
 app.use('/friend', friendRoute)
+app.use('/user', userRoute)
 
 module.exports = app
