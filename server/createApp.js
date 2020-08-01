@@ -10,6 +10,7 @@ var registRoute = require('./routers/regist')
 var loginRoute = require('./routers/login')
 var friendRoute = require('./routers/friend.js')
 var userRoute = require('./routers/user')
+var groupRoute = require('./routers/group')
 
 var checkLogin = require('./middleware/checkLogin.js')
 
@@ -36,5 +37,5 @@ app.use('/regist', registRoute)
 app.use('/login', loginRoute)
 app.use('/friend', friendRoute)
 app.use('/user', userRoute)
-
+app.use('/group', groupRoute)
 module.exports = app

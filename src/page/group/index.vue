@@ -3,7 +3,7 @@
     <Header title="加入群聊"></Header>
     <SearchBox :showResult='showResult' :searchResult='groupInfo' placeholder='请输入群id' type='group' @search='searchGroup' @add='addGroup'></SearchBox>
     <div class='guide'>
-      <router-link to='/createGroup' >或者自己建一个群聊？</router-link>
+      <router-link :to="{path:'/createGroup', query: {user: this.$route.query.user}}" >或者自己建一个群聊？</router-link>
     </div>
   </div>
 </template>

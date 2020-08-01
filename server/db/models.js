@@ -39,6 +39,17 @@ const config = {
         declaration: 'string',
         friends: [{}],
         groups: [{}]
+    },
+    group: {
+        name: {
+            type: 'String',
+            minlength: 0,
+            maxlength: 10
+        },
+        needValidate: 'Boolean',
+        createBy: 'String',
+        users:[{}],
+        id: 'string'
     }
 }
 

@@ -129,53 +129,9 @@ router.get('/info/user/:user/', function (req, res) {
   })
 })
 
-
-router.post('/createGroup', function (req, res) {
-  var name = req.body.name
-  var location = req.body.location
-  var validate = req.body.validate
-  var user = req.body.user
-
-  MongoClient.connect(url, function (e, client) {
-    var db = client.db('chat')
-    var gid = parseInt(Math.random() * 1000000) + ''
-    var data = {
-      name,
-      location,
-      validate,
-      creatBy: user,
-      users: [user],
-      id: gid
-    }
-    db.collection('group').insertOne(data, function (e, r) {
-      if (e) {
-        res.json({
-          code: '0',
-          msg: '创建群失败'
-        })
-      } else {
-        db.collection('user').update({user: user}, {$push: {groups: gid}, function(err) {
-          if(err){
-            res.json({
-              code: '0',
-              msg: '创建群失败'
-            })
-          }else{
-            res.json({
-              code: '1',
-              msg: '群创建成功'
-            })
-          }
-        }})
-      }
-    })
-  })
-  console.log(name, location, user, validate)
-})
-
-
 router.get('/searchGroup/id/:id', function (req, res) {
   var id = req.params.id
+
   console.log(id)
   MongoClient.connect(url, function (e, client) {
     var db = client.db('chat')
@@ -238,16 +194,4 @@ router.post('/addGroup/id/:id/user/:user', function(req, res) {
   })
 })
 
-router.get('/getAllGroups', function(req, res){
-  MongoClient.connect(url, function (e, client) {
-    var db = client.db('chat')
-    db.collection('group').find({}).toArray().then(function(result){
-      console.log(result)
-      res.json({
-        code: '1',
-        groups: result
-      })
-    })
-  })
-})
 module.exports = router;

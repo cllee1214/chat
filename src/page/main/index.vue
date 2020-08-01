@@ -59,6 +59,7 @@ export default {
     };
   },
   created() {
+    this.initSocket()
     this.setHeader()
     this.checkLoginExpire()
     this.pullFriends();
@@ -138,7 +139,7 @@ export default {
     pullFriends() {
       let myFriendsPromise = this.axios.get(`/user/friendsInfo/user/${this.user}`);
       let allFriendsPromise = this.axios.get("/user/allUsers");
-      let allGroupInfoPromise = this.axios.get("/getAllGroups");
+      let allGroupInfoPromise = this.axios.get("/group/allGroups");
       Promise.all([myFriendsPromise, allFriendsPromise, allGroupInfoPromise])
         .then((rs) => {
           console.log(rs);
