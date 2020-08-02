@@ -1,6 +1,10 @@
 var server = require('./createServer')
 var io = require("socket.io")(server);
 
+var Group = require('../db/models.js').group
+var User = require('../db/models.js').user
+
+
 var MongoClient = require('mongodb').MongoClient;
 var dbLoctaion = 'nas'
 var url = dbLoctaion ? "mongodb://192.168.1.111:27017/chat" : "mongodb://localhost:27017/chat";
@@ -65,22 +69,10 @@ var serverClient = io.on('connection', function (socket) {
   
   */ 
 
+
+
   var insertFirendFactory = function (updateWhere, updateData) {
-   return new Promise(function(resolve, reject){
-      MongoClient.connect(url, function(e, client) {
-        if(e){
-          console.log(e)
-        }
-        var db = client.db('chat')
-        db.collection('user').update(updateWhere, updateData, function(e, r) {
-          if(e){
-            reject(e)
-          }else{
-            resolve()
-          }
-        })
-      })
-    })
+    return User.update(updateData).where(updateWhere)
   }
   
   socket.on('addFriend',function(data) {
@@ -118,27 +110,19 @@ var serverClient = io.on('connection', function (socket) {
         console.log(e)
       })
     }
-   
   })
-  
 });
 
-MongoClient.connect(url, function (e, client) {
-  var db = client.db('chat')
-  db.collection('group').find({}).toArray().then(function(groups){
-    // console.log('group')
-    // console.log(groups)
-    groups.forEach(group => {
-      var current = io.of('/' + group.id).on('connection',function(socket) {
-        socket.on('msg', function(data) {
-          console.log(data)
-          current.emit('msg', data)
-        })
+Group.find().then(groups => {
+  groups.forEach(group => {
+    var current = io.of('/' + group.id).on('connection', function(socket) {
+      socket.on('msg', function(data) {
+        console.log(data)
+        current.emit('msg', data)
       })
     })
   })
 })
-
 
 
 module.exports = server
