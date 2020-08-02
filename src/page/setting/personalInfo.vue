@@ -24,7 +24,7 @@
 <script>
 
 export default {
-    name: 'info',
+    name: 'userinfo',
     data () {
         return {
             user: '',
@@ -55,20 +55,20 @@ export default {
             const fileReader = new FileReader()
             fileReader.readAsDataURL(file)
             fileReader.addEventListener('load', () => {
-                 this.avatarPath = fileReader.result
+                this.avatarPath = fileReader.result
             })
         },
         handleClick() {
             this.$refs.input.click()
         },
         pullInfo () {
-            this.axios.get(`/info/user/${this.user}`).then((res) => {
-               let data = res.data
+            this.axios.get(`/user/info`, {params: {user: this.user}}).then((res) => {
+               let data = res.data.data
                this.renderInfo(data)
             })
         },
         renderInfo(data) {
-            this.user = data.user
+            // this.user = data.user
             this.nickname = data.nickname
             this.declaration = data.declaration
             this.avatarPath = data.avatar
@@ -88,7 +88,7 @@ export default {
             formData.append('avatar',this.avatar)
             formData.append('user',this.user)
         
-            this.axios.post('/info', formData, config).then(() => {
+            this.axios.post('/user/update', formData, config).then(() => {
 
             })
         }

@@ -35,6 +35,56 @@ router.post('/create', function(req, res) {
     })
 })
 
+router.post('/add/id/:id/user/:user', function(req, res) {
+    var id = req.params.id
+    var user = req.params.user
+    Group.update({$push: {users: user}}).where({id}).then(result => {
+        console.log(result)
+        User.update({$push: {groups: id}}).where({user}).then(r => {
+            res.json({
+                code: '1',
+                msg: '加群成功'
+            })
+        }).catch(err => {
+            res.json({
+                code: '0',
+                msg: '加群失败'
+            })
+        })
+    }).catch(err => {
+        res.json({
+            code: '0',
+            msg: '加群失败'
+        })
+    })
+})
+
+router.post('/search/id/:id', function(req, res) {
+    var id = req.params.id
+    console.log(typeof id)
+    Group.findOne().where({id}).then(data => {
+        console.log(data)
+        if(data) {
+            res.json({
+                code: 1,
+                name: data.name,
+                creatBy: data.creatBy,
+                users: data.users
+            })
+        }else {
+            res.json({
+                code: '0',
+                msg: '该群不存在'
+            })
+        }
+    }).catch(err => {
+        res.json({
+            code: 0,
+            msg: '群查找失败'
+        })
+    })
+})
+
 router.get('/allGroups', function(req, res) {
     Group.find().then(groups => {
         res.json({

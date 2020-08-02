@@ -137,7 +137,12 @@ export default {
       }
     },
     pullFriends() {
-      let myFriendsPromise = this.axios.get(`/user/friendsInfo/user/${this.user}`);
+      let myFriendsPromise = this.axios.get(`/user/info/`, {
+        params: {
+          user: this.user,
+          needFriendsAndGroup: true
+        }
+      });
       let allFriendsPromise = this.axios.get("/user/allUsers");
       let allGroupInfoPromise = this.axios.get("/group/allGroups");
       Promise.all([myFriendsPromise, allFriendsPromise, allGroupInfoPromise])

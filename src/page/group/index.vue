@@ -29,7 +29,7 @@ export default {
   methods: {
     searchGroup (id) {
       const user = this.$route.query.user
-      this.axios.get(`/searchGroup/id/${id}`).then((data) => {
+      this.axios.post(`/group/search/id/${id}`).then((data) => {
        var data = data.data
        if(data.code == '1') {
          this.groupInfo.name = data.name
@@ -46,7 +46,7 @@ export default {
       })
     },
     addGroup (id) {
-      this.axios.post(`/addGroup/id/${id}/user/${this.$route.query.user}`).then(() => {
+      this.axios.post(`/group/add/id/${id}/user/${this.$route.query.user}`).then(() => {
         
       })
     }
