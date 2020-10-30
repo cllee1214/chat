@@ -1,8 +1,8 @@
 var server = require('./createServer')
 var io = require("socket.io")(server);
 
-var Group = require('../db/models.js').group
-var User = require('../db/models.js').user
+var Group = require('./db/models.js').group
+var User = require('./db/models.js').user
 
 
 var MongoClient = require('mongodb').MongoClient;

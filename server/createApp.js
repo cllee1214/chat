@@ -30,7 +30,7 @@ console.log(path.join(__dirname, 'upload'))
 app.use(express.static(path.join(__dirname, 'upload')))
 app.use(express.static(path.join(__dirname, 'static')));
 
-// app.use(checkLogin)
+app.use(checkLogin)
 
 app.use('/', indexRoute)
 app.use('/regist', registRoute)

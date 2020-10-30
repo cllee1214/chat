@@ -61,7 +61,6 @@ export default {
   created() {
     this.initSocket()
     this.setHeader()
-    this.checkLoginExpire()
     this.pullFriends();
     this.handleAddFriend();
     this.initSingleChannel()
@@ -78,12 +77,6 @@ export default {
     initSocket() {
       const socket = SocketIO("http://127.0.0.1:8888/?user=" + Store.get("chat").user)
       this.$store.commit('initSocket', socket)
-    },
-    checkLoginExpire() {
-      this.axios.interceptors.response.use((res) => {
-        console.log(res)
-        return res
-      })
     },
     setHeader() {
       Axios.defaults.headers.common['Authorization'] = Store.get('chat') && Store.get('chat').token

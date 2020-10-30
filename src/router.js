@@ -6,9 +6,14 @@ import Info from './page/setting/personalInfo.vue'
 import AddFriend from './page/friends/addFriend.vue'
 import Group from './page/group/index.vue'
 import CreateGroup from './page/group/createGroup.vue'
-import MessageBox from './page/message/index.vue'
-import FriendBox from './page/friends/friendList.vue'
-import SettingBox from './page/setting/index.vue'
+// import MessageBox from './page/message/index.vue'
+const MessageBox = () => import('./page/message/index.vue')
+// import FriendBox from './page/friends/friendList.vue'
+const FriendBox = () => import('./page/friends/friendList.vue')
+
+// import SettingBox from './page/setting/index.vue'
+const SettingBox = () => import('./page/setting/index.vue')
+
 
 import Test from './page/test/index.vue'
 

@@ -1,7 +1,8 @@
 var jwt = require('jsonwebtoken')
 
 module.exports = function (req, res, next) {
-  const skips = ['/login','/regist']
+  const skips = ['/login', '/regist', '/']
+  console.log(req.url)
   if(skips.indexOf(req.url) != -1) {
     next()
     return
